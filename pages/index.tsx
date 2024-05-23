@@ -1,5 +1,18 @@
-const Home = () => {
-  return <main className='h-screen w-full flex items-center justify-center'>Hola mundo</main>;
-};
+import Image from 'next/image';
+import { Inter } from 'next/font/google';
+import Hero from '@/components/home/hero';
+import Features from '@/components/home/features';
+import Products from '@/components/home/products';
+import Footer from '@/components/home/footer';
 
-export default Home;
+const inter = Inter({ subsets: ['latin'] });
+
+export default function Home() {
+  return (
+    <div>
+      <Hero />
+      <Features />
+      <Products />
+    </div>
+  );
+}
