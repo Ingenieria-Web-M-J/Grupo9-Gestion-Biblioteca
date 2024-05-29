@@ -5,6 +5,9 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import prisma from '@/config/prisma';
 
 const options: NextAuthOptions = {
+
+  
+
   providers: [
     Auth0Provider({
       wellKnown: `https://${process.env.AUTH0_DOMAIN}/`,

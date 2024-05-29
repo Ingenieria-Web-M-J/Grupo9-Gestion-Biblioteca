@@ -5,14 +5,29 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 First, run the development server:
 
 ```bash
-npm run dev
-# or
+yarn install
+
+yarn add prisma -d
+yarn add @prisma/client 
+yarn prisma generate
+
+yarn add type-graphql
+
+
+yarn add next react react-dom
+//yarn add react-router-dom
+
+
+yarn add next-auth
+yarn add @auth/prisma-adapter
+yarn add formik
+yarn add yup
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+
+//llevar a base de datos borrando la base de datos si tiene dev, deploy si deja los datos pasados
+npx prisma migrate dev --name Primer Migracion
+npx prisma init                 //iniciar prisma una sola vez
+
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 

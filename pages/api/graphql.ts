@@ -31,6 +31,9 @@ const functionHandler = async (req: IncomingMessage, res: ServerResponse<Incomin
   });
   const apolloServer = new ApolloServer({
     context: (): Context => ({ prisma }),
+    typeDefs: [...customTypes],
+    resolvers: [...customResolvers],
+    
     schema,
     persistedQueries: false, // This disables persisted queries
     cache: 'bounded', // This sets up a bounded cache
