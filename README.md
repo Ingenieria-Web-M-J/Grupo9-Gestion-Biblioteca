@@ -22,6 +22,9 @@ yarn add next-auth
 yarn add @auth/prisma-adapter
 yarn add formik
 yarn add yup
+yarn add react-modal 
+//yarn add react-chartjs-2 
+//yarn add chart.js
 yarn dev
 
 //llevar a base de datos borrando la base de datos si tiene dev, deploy si deja los datos pasados

@@ -1,15 +1,17 @@
 import React from 'react';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/home/footer';
+import Sidebar from './Sidebar';
 
-const Layout = ({ children }: any) => {
+const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
-    <div>
-      <Navbar />
-      {children}
-      <Footer />
+    <div className="flex flex-col lg:flex-row">
+      <Sidebar />
+      <main className="flex-1 p-8 lg:ml-64 lg:w-4/5">
+        {children}
+      </main>
     </div>
   );
 };
 
 export default Layout;
+
+
