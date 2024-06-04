@@ -34,7 +34,7 @@ const Index = () => {
   if (loading) return <h1>Loading...</h1>;
   return (
     <div>
-      <section className='text-gray-400 bg-gray-900 body-font'>
+      <section className='text-gray-400 bg-gray-900 body-font bg-white'>
         <div className='container px-5 py-24 mx-auto'>
           <div className='flex flex-wrap -m-4 items-center justify-center'>
             {products.map((product: ProductType) => (

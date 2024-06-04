@@ -38,7 +38,7 @@ const Sidebar: React.FC = () => {
           isOpen ? 'translate-x-0' : '-translate-x-full'
         } transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:shadow-none z-10 lg:w-1/5 lg:h-auto lg:fixed`}
       >
-        <div className='flex items-center justify-between p-4 bg-gray-900'>
+        <div className='flex items-center justify-between p-4 bg-gray-900 bg-white'>
           <Link href='/'>
             <img className='w-auto h-24 sm:h-28' src='/logo.png' alt='Logo Biblioteca' />
           </Link>
