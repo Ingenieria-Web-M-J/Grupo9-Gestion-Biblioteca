@@ -1,58 +1,117 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Documentación del Proyecto
 
-## Getting Started
+Este es un proyecto [Next.js](https://nextjs.org/) iniciado con [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-First, run the development server:
+## Propósito del Proyecto
 
-```bash
-yarn install
+El propósito de este proyecto es gestionar transacciones relacionadas con libros y sus movimientos, así como manejar la información de los maestros. El proyecto permite a los usuarios agregar, ver y gestionar libros y sus transacciones asociadas, además de gestionar los registros de los maestros.
 
-yarn add prisma -d
-yarn add @prisma/client 
-yarn prisma generate
+## Primeros Pasos
 
-yarn add type-graphql
+Para comenzar con este proyecto, sigue los pasos a continuación.
 
+### Prerrequisitos
 
-yarn add next react react-dom
-//yarn add react-router-dom
+Asegúrate de tener instalados en tu máquina:
+- Node.js
+- Yarn (manejador de paquetes)
 
+### Instalación
 
-yarn add next-auth
-yarn add @auth/prisma-adapter
-yarn add formik
-yarn add yup
-yarn add react-modal 
-//yarn add react-chartjs-2 
-//yarn add chart.js
-yarn dev
+1. **Clona el repositorio**
 
-//llevar a base de datos borrando la base de datos si tiene dev, deploy si deja los datos pasados
-npx prisma migrate dev --name Primer Migracion
-npx prisma init                 //iniciar prisma una sola vez
+   ```bash
+   git clone https://github.com/tu-repo/tu-proyecto.git
+   cd tu-proyecto
+   ```
 
+2. **Instala las dependencias**
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+   ```bash
+   yarn install
+   ```
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+3. **Agrega Prisma y su cliente**
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+   ```bash
+   yarn add prisma -D
+   yarn add @prisma/client
+   yarn prisma generate
+   ```
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+4. **Agrega los paquetes necesarios**
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+   ```bash
+   yarn add type-graphql
+   yarn add next react react-dom
+   yarn add next-auth
+   yarn add @auth/prisma-adapter
+   yarn add formik
+   yarn add yup
+   yarn add react-modal
+   ```
 
-## Learn More
+### Configuración de la Base de Datos
 
-To learn more about Next.js, take a look at the following resources:
+1. **Inicializa Prisma**
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+   ```bash
+   npx prisma init
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+2. **Migra la base de datos**
 
-## Deploy on Vercel
+   Si es la primera vez configurando la base de datos:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+   ```bash
+   npx prisma migrate dev --name PrimerMigracion
+   ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+   Para desplegar migraciones manteniendo los datos existentes:
+
+   ```bash
+   npx prisma deploy
+   ```
+
+### Ejecutando el Servidor de Desarrollo
+
+1. **Inicia el servidor de desarrollo**
+
+   ```bash
+   yarn dev
+   ```
+
+2. **Abre el proyecto en tu navegador**
+
+   Abre [http://localhost:3000](http://localhost:3000) con tu navegador para ver el resultado.
+
+### Estructura del Proyecto
+
+- **Páginas**
+
+  Puedes comenzar a editar la página modificando `pages/index.tsx`. La página se actualiza automáticamente a medida que editas el archivo.
+
+  **Rutas de API**
+
+  [Las rutas de API](https://nextjs.org/docs/api-routes/introduction) se pueden acceder en [http://localhost:3000/api/hello](http://localhost:3000/api/hello). Este endpoint se puede editar en `pages/api/hello.ts`.
+
+  El directorio `pages/api` está mapeado a `/api/*`. Los archivos en este directorio se tratan como [rutas de API](https://nextjs.org/docs/api-routes/introduction) en lugar de páginas de React.
+
+- **Fuentes**
+
+  Este proyecto utiliza [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) para optimizar y cargar automáticamente Inter, una fuente personalizada de Google.
+
+## Más Información
+
+Para aprender más sobre Next.js, consulta los siguientes recursos:
+
+- [Documentación de Next.js](https://nextjs.org/docs) - aprende sobre las características y la API de Next.js.
+- [Aprende Next.js](https://nextjs.org/learn) - un tutorial interactivo de Next.js.
+
+Puedes revisar el [repositorio de GitHub de Next.js](https://github.com/vercel/next.js/) - tus comentarios y contribuciones son bienvenidos.
+
+## Despliegue en Vercel
+
+La manera más fácil de desplegar tu aplicación de Next.js es usar la [Plataforma Vercel](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) de los creadores de Next.js.
+
+Consulta nuestra [documentación sobre el despliegue de Next.js](https://nextjs.org/docs/deployment) para más detalles.

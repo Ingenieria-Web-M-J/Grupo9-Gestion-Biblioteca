@@ -13,7 +13,7 @@ const Sidebar: React.FC = () => {
     <div>
       <button
         type='button'
-        className='fixed top-0 left-0 p-4 z-20 text-black hover:text-gray-600 focus:outline-none lg:hidden'
+        className='fixed top-0 left-0 p-4 z-20 text-black hover:text-gray-200 focus:outline-none lg:hidden'
         aria-label='toggle menu'
         onClick={() => setIsOpen(!isOpen)}
       >
@@ -34,43 +34,43 @@ const Sidebar: React.FC = () => {
       </button>
 
       <div
-        className={`fixed top-0 left-0 w-64 h-full bg-white shadow-lg transform ${
+        className={`fixed top-0 left-0 w-64 h-full bg-blue-100 shadow-lg transform ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
         } transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:shadow-none z-10 lg:w-1/5 lg:h-auto lg:fixed`}
       >
-        <div className='flex items-center justify-between p-4 bg-gray-900 bg-white'>
+        <div className='flex items-center justify-between p-4 bg-blue-300'>
           <Link href='/'>
             <img className='w-auto h-24 sm:h-28' src='/logo.png' alt='Logo Biblioteca' />
           </Link>
         </div>
         <nav className='mt-10'>
-          <Link href='/' className='block px-4 py-2 text-black capitalize hover:bg-blue-600'>
+          <Link href='/' className='block px-4 py-2 text-indigo-700 capitalize hover:bg-blue-300'>
             Inicio
           </Link>
-          <Link href='/checkout' className='block px-4 py-2 text-black capitalize hover:bg-blue-600'>
+          <Link href='/checkout' className='block px-4 py-2 text-indigo-700 capitalize hover:bg-blue-300'>
             Verificación
           </Link>
-          <Link href='/admin' className='block px-4 py-2 text-black capitalize hover:bg-blue-600'>
+          <Link href='/admin' className='block px-4 py-2 text-indigo-700 capitalize hover:bg-blue-300'>
             Administrador
           </Link>
-          <Link href='/products' className='block px-4 py-2 text-black capitalize hover:bg-blue-600'>
+          <Link href='/products' className='block px-4 py-2 text-indigo-700 capitalize hover:bg-blue-300'>
             Productos
           </Link>
-          <Link href='/books' className='block px-4 py-2 text-black capitalize hover:bg-blue-600'>
+          <Link href='/books' className='block px-4 py-2 text-indigo-700 capitalize hover:bg-blue-300'>
             Libros
           </Link>
-          <Link href='/transactions' className='block px-4 py-2 text-black capitalize hover:bg-blue-600'>
+          <Link href='/transactions' className='block px-4 py-2 text-indigo-700 capitalize hover:bg-blue-300'>
             Transacciones
           </Link>
-          <div className='block px-4 py-2 text-black capitalize hover:bg-blue-600'>
+          <div className='block px-4 py-2 text-indigo-700 capitalize hover:bg-blue-300'>
             {session ? (
               <div>
-                <p>
+                <p className='text-indigo-700'>
                   {session.user?.name} - {session.user?.email}
                 </p>
                 <button
                   onClick={() => signOut()}
-                  className='block mt-2 text-black capitalize hover:bg-blue-600'
+                  className='block mt-2 text-indigo-700 capitalize hover:bg-blue-300'
                 >
                   Cerrar Sesión
                 </button>
@@ -78,13 +78,13 @@ const Sidebar: React.FC = () => {
             ) : (
               <button
                 onClick={() => signIn()}
-                className='block text-black capitalize hover:bg-blue-600'
+                className='block text-indigo-700 capitalize hover:bg-blue-300'
               >
                 Inicio Sesión
               </button>
             )}
           </div>
-          <div className='text-2xl font-bold text-black px-4 py-2'>
+          <div className='text-2xl font-bold text-indigo-700 px-4 py-2'>
             {cart.length}
           </div>
         </nav>
@@ -94,6 +94,7 @@ const Sidebar: React.FC = () => {
 };
 
 export default Sidebar;
+
 
 
 
