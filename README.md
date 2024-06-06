@@ -53,7 +53,7 @@ Asegúrate de tener instalados en tu máquina:
 
 ### Configuración de la Base de Datos
 
-1. **Inicializa Prisma**
+1. **Inicializar Prisma primera vez**
 
    ```bash
    npx prisma init
@@ -64,7 +64,7 @@ Asegúrate de tener instalados en tu máquina:
    Si es la primera vez configurando la base de datos:
 
    ```bash
-   npx prisma migrate dev --name PrimerMigracion
+   npx prisma migrate dev --name "PrimerMigracion"
    ```
 
    Para desplegar migraciones manteniendo los datos existentes:

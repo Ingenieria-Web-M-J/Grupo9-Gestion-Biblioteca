@@ -20,7 +20,7 @@ const Product = gql`
     productId: String
     createdAt: Date
     createdAt: Date
-  }
+  } 
   type Category {
     id: String
     name: String
