@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 
 // Componente principal para manejar las transacciones de los libros
 const Transactions = () => {
-  const [libros, setLibros] = useState([]); // Estado para almacenar la lista de libros
-  const [movimientos, setMovimientos] = useState([]); // Estado para almacenar la lista de movimientos
-  const [selectedLibro, setSelectedLibro] = useState(null); // Estado para almacenar el libro seleccionado
+  const [libros, setLibros] = useState<any[]>([]); // Estado para almacenar la lista de libros
+  const [movimientos, setMovimientos] = useState<any[]>([]); // Estado para almacenar la lista de movimientos
+  const [selectedLibro, setSelectedLibro] = useState(''); // Estado para almacenar el libro seleccionado
   const [loading, setLoading] = useState(false); // Estado para controlar la animación de carga
   const [isModalOpen, setIsModalOpen] = useState(false); // Estado para controlar la visibilidad del modal
   const [modalTipo, setModalTipo] = useState('ENTRADA'); // Estado para almacenar el tipo de movimiento en el modal
@@ -26,18 +26,18 @@ const Transactions = () => {
     setLibros(data);
   };
 
-  // // Función para obtener la lista de movimientos del API para un libro específico
-  // const fetchMovimientos = async (libroId) => {
-  //   const res = await fetch(`/api/movimientos?libroId=${libroId}`);
-  //   const data = await res.json();
-  //   setMovimientos(data);
-  // };
+  //  Función para obtener la lista de movimientos del API para un libro específico
+   const fetchMovimientos = async (libroId: any) => {
+     const res = await fetch(`/api/movimientos?libroId=${libroId}`);
+    const data = await res.json();
+     setMovimientos(data);
+   };
 
-  // Función para manejar el cambio de selección del libro
-  // const handleLibroChange = (e) => {
-  //   const libroId = e.target.value;
-  //   setSelectedLibro(libroId);
-  // };
+   //Función para manejar el cambio de selección del libro
+   const handleLibroChange = (e: { target: { value: any; }; }) => {
+     const libroId = e.target.value;
+     setSelectedLibro(libroId);
+   };
 
   // Función para manejar la adición de un nuevo movimiento
   const handleAgregarMovimiento = async () => {
@@ -56,13 +56,13 @@ const Transactions = () => {
     });
     setLoading(false);
     if (res.ok) {
-      fetchMovimientos(selectedLibro); // Recargar la lista de movimientos
+      setMovimientos([]); // Recargar la lista de movimientos
       setIsModalOpen(false); // Cerrar el modal
     }
   };
 
   // Función para manejar el cambio en el número de unidades en el modal
-  const handleUnidadesChange = (e) => {
+  const handleUnidadesChange = (e: { target: { value: string; }; }) => {
     const value = parseInt(e.target.value, 10);
     if (!isNaN(value) && value > 0) {
       setModalUnidades(value); // Actualizar el estado con el nuevo valor
