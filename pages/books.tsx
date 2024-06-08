@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
+import { useQuery } from '@apollo/client';
+import { GET_PRODUCTS } from '@/utils/queries/products';
 
 // Componente principal para manejar la lista de libros
 const Books: React.FC = () => {
@@ -8,39 +10,27 @@ const Books: React.FC = () => {
   const [showDialog, setShowDialog] = useState(false); // Estado para controlar la visibilidad del cuadro de diálogo de agregar libro
   const [name, setName] = useState(''); // Estado para almacenar el nombre del nuevo libro
   const [balance, setBalance] = useState<number>(0); // Estado para almacenar el saldo inicial del nuevo libro
-  const [loading, setLoading] = useState(false); // Estado para controlar la animación de carga
+  //const [loading, setLoading] = useState(false); // Estado para controlar la animación de carga
 
-  // useEffect para cargar la lista de libros cuando el componente se monta
-  useEffect(() => {
-    fetchBooks();
-  }, []);
+  //Traer productos
+  const {loading} = useQuery(GET_PRODUCTS, {
+    variables: {
+      take: 10,
+      skip: 0,
+    },
+    //Politica para obtener los datos de la cache y no estar consultando siempre al servidor
+    fetchPolicy: 'cache-and-network',
+    onCompleted(data) {
+      console.log(data);
+      setBooks(data.products);
+    },
+  });
 
-  // Función para obtener la lista de libros del API
-  const fetchBooks = async () => {
-    const res = await fetch('/api/Books');
-    const data = await res.json();
-    setBooks(data);
-  };
+
+  if (loading) return <h1>Loading...</h1>;
 
   // Función para manejar la adición de un nuevo libro
-  const handleAddMaestro = async () => {
-    setLoading(true);
-    const res = await fetch('/api/Books', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        name,
-        balance,
-      }),
-    });
-    setLoading(false);
-    if (res.ok) {
-      setShowDialog(false); // Cerrar el cuadro de diálogo
-      fetchBooks(); // Recargar la lista de libros
-    }
-  };
+  //const handleAddMaestro = 
 
   // Función para manejar el cambio del saldo inicial
   const handleBalanceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -51,6 +41,7 @@ const Books: React.FC = () => {
       setBalance(0); // Establecer el saldo en 0 si el valor no es válido
     }
   };
+
 
   return (
     <div className="flex bg-blue-100 min-h-screen">
@@ -70,9 +61,9 @@ const Books: React.FC = () => {
             {Books.map((book) => (
               <tr key={book.id}>
                 <td className="border p-2">{book.id}</td>
-                <td className="border p-2">{book.name}</td>
+                <td className="border p-2">{book.title}</td>
                 <td className="border p-2">{book.balance}</td>
-                <td className="border p-2">{book.creatorId}</td>
+                <td className="border p-2">{book.creator.name}</td>
               </tr>
             ))}
           </tbody>
@@ -113,8 +104,7 @@ const Books: React.FC = () => {
                 />
               </div>
               <button
-                onClick={handleAddMaestro}
-                disabled={loading}
+                //onClick={handleAddMaestro}
                 className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
               >
                 {loading ? 'Cargando...' : 'Agregar'}

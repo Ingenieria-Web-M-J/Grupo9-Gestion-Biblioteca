@@ -1,5 +1,7 @@
 import { Account } from "../models/Account";
+import { Product } from "../models/Product";
 import { Session } from "../models/Session";
+import { Transaction } from "../models/Transaction";
 import { UserCount } from "../resolvers/outputs/UserCount";
 export declare class User {
     id: string;
@@ -11,5 +13,8 @@ export declare class User {
     sessions?: Session[];
     createdAt: Date;
     updatedAt: Date;
+    Product?: Product[];
+    role: string;
+    Transaction?: Transaction[];
     _count?: UserCount | null;
 }

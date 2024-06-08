@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
+import { useQuery } from '@apollo/client';
+import { GET_USERS } from '@/utils/queries/users';
 
 // Definición del tipo User para tipar los datos del usuario
 type User = {
@@ -14,7 +16,7 @@ const Usuarios: React.FC = () => {
   const { data: session } = useSession();
   
   // Estado para almacenar la lista de usuarios
-  const [usuarios, setUsuarios] = useState<User[]>([]);
+  const [users, setUsers] = useState<User[]>([]);
   
   // Estado para controlar la visibilidad del diálogo de edición
   const [showDialog, setShowDialog] = useState(false);
@@ -24,21 +26,23 @@ const Usuarios: React.FC = () => {
   
   // Estado para almacenar el rol seleccionado en el diálogo de edición
   const [selectedRole, setSelectedRole] = useState('');
-  
-  // Estado para controlar la animación de carga
-  const [loading, setLoading] = useState(false);
 
-  // useEffect para cargar la lista de usuarios cuando el componente se monta
-  useEffect(() => {
-    fetchUsuarios();
-  }, []);
+  //Traer usuarios
+  const {loading} = useQuery(GET_USERS, {
+    variables: {
+      take: 10,
+      skip: 0,
+    },
+    //Politica para obtener los datos de la cache y no estar consultando siempre al servidor
+    fetchPolicy: 'cache-and-network',
+    onCompleted(data) {
+      console.log(data);
+      setUsers(data.users);
+    },
+  });
 
-  // Función para obtener la lista de usuarios del API
-  const fetchUsuarios = async () => {
-    const res = await fetch('/api/usuarios');
-    const data: User[] = await res.json();
-    setUsuarios(data);
-  };
+
+ 
 
   // Función para manejar la edición de un usuario
   const handleEditUser = (user: User | null) => {
@@ -47,15 +51,16 @@ const Usuarios: React.FC = () => {
     setShowDialog(true);
   };
 
-  // Función para actualizar el usuario en el API
-  const handleUpdateUser = async () => {
-    setLoading(true);
-    // Lógica para actualizar el usuario aquí
-    setLoading(false);
-    setShowDialog(false);
-    fetchUsuarios();
-  };
+  // // Función para actualizar el usuario en el API
+  // const handleUpdateUser = async () => {
+  //   setLoading(true);
+  //   // Lógica para actualizar el usuario aquí
+  //   setLoading(false);
+  //   setShowDialog(false);
+  //   fetchUsuarios();
+  // };
 
+  if (loading) return <h1>Loading...</h1>;
   return (
     <div className="flex flex-col items-center bg-blue-100 min-h-screen p-6">
       <div className="bg-white shadow-lg rounded-lg p-6 w-full lg:w-3/4 xl:w-2/3">
@@ -72,7 +77,7 @@ const Usuarios: React.FC = () => {
               </tr>
             </thead>
             <tbody>
-              {usuarios.map((user) => (
+              {users.map((user) => (
                 <tr key={user.id} className="hover:bg-gray-100">
                   <td className="border px-4 py-2">{user.id}</td>
                   <td className="border px-4 py-2">{new Date(user.createdAt).toLocaleDateString()}</td>
@@ -115,7 +120,7 @@ const Usuarios: React.FC = () => {
               </div>
               <div className="flex justify-end">
                 <button
-                  onClick={handleUpdateUser}
+                  //onClick={handleUpdateUser}
                   disabled={loading}
                   className="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition duration-200 mr-2"
                 >

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.VerificationTokenScalarFieldEnum = exports.UserScalarFieldEnum = exports.TransactionIsolationLevel = exports.SortOrder = exports.SessionScalarFieldEnum = exports.RatingScalarFieldEnum = exports.QueryMode = exports.ProductScalarFieldEnum = exports.NullsOrder = exports.CategoryScalarFieldEnum = exports.AccountScalarFieldEnum = void 0;
+exports.VerificationTokenScalarFieldEnum = exports.UserScalarFieldEnum = exports.TransactionScalarFieldEnum = exports.TransactionIsolationLevel = exports.SortOrder = exports.SessionScalarFieldEnum = exports.RatingScalarFieldEnum = exports.QueryMode = exports.ProductScalarFieldEnum = exports.NullsOrder = exports.CategoryScalarFieldEnum = exports.AccountScalarFieldEnum = void 0;
 var AccountScalarFieldEnum_1 = require("./AccountScalarFieldEnum");
 Object.defineProperty(exports, "AccountScalarFieldEnum", { enumerable: true, get: function () { return AccountScalarFieldEnum_1.AccountScalarFieldEnum; } });
 var CategoryScalarFieldEnum_1 = require("./CategoryScalarFieldEnum");
@@ -19,6 +19,8 @@ var SortOrder_1 = require("./SortOrder");
 Object.defineProperty(exports, "SortOrder", { enumerable: true, get: function () { return SortOrder_1.SortOrder; } });
 var TransactionIsolationLevel_1 = require("./TransactionIsolationLevel");
 Object.defineProperty(exports, "TransactionIsolationLevel", { enumerable: true, get: function () { return TransactionIsolationLevel_1.TransactionIsolationLevel; } });
+var TransactionScalarFieldEnum_1 = require("./TransactionScalarFieldEnum");
+Object.defineProperty(exports, "TransactionScalarFieldEnum", { enumerable: true, get: function () { return TransactionScalarFieldEnum_1.TransactionScalarFieldEnum; } });
 var UserScalarFieldEnum_1 = require("./UserScalarFieldEnum");
 Object.defineProperty(exports, "UserScalarFieldEnum", { enumerable: true, get: function () { return UserScalarFieldEnum_1.UserScalarFieldEnum; } });
 var VerificationTokenScalarFieldEnum_1 = require("./VerificationTokenScalarFieldEnum");

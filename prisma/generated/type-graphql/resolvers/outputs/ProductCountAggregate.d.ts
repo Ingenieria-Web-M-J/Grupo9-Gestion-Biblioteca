@@ -5,6 +5,8 @@ export declare class ProductCountAggregate {
     price: number;
     image: number;
     categoryId: number;
+    userId: number;
+    balance: number;
     createdAt: number;
     updatedAt: number;
     _all: number;

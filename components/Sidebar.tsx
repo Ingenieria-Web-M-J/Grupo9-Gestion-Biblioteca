@@ -48,19 +48,19 @@ const Sidebar: React.FC = () => {
             Inicio
           </Link>
           <Link href='/checkout' className='block px-4 py-2 text-indigo-700 capitalize hover:bg-blue-300'>
-            Verificación
+            Carrito
           </Link>
           <Link href='/admin' className='block px-4 py-2 text-indigo-700 capitalize hover:bg-blue-300'>
-            Administrador
+            Gestion de Usuarios
           </Link>
           <Link href='/products' className='block px-4 py-2 text-indigo-700 capitalize hover:bg-blue-300'>
-            Productos
+            Producto
           </Link>
           <Link href='/books' className='block px-4 py-2 text-indigo-700 capitalize hover:bg-blue-300'>
-            Libros
+            Gestion de Libros
           </Link>
           <Link href='/transactions' className='block px-4 py-2 text-indigo-700 capitalize hover:bg-blue-300'>
-            Transacciones
+            Gestion de Transacciones
           </Link>
           <div className='block px-4 py-2 text-indigo-700 capitalize hover:bg-blue-300'>
             {session ? (

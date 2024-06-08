@@ -10,4 +10,5 @@ export declare class UserUpdateManyMutationInput {
     image?: NullableStringFieldUpdateOperationsInput | undefined;
     createdAt?: DateTimeFieldUpdateOperationsInput | undefined;
     updatedAt?: DateTimeFieldUpdateOperationsInput | undefined;
+    role?: StringFieldUpdateOperationsInput | undefined;
 }

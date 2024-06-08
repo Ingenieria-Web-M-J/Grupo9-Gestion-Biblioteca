@@ -10,15 +10,12 @@ const Transactions = () => {
   const [modalTipo, setModalTipo] = useState('ENTRADA'); // Estado para almacenar el tipo de movimiento en el modal
   const [modalUnidades, setModalUnidades] = useState(1); // Estado para almacenar las unidades en el modal
 
-  // useEffect para cargar la lista de libros cuando el componente se monta
-  useEffect(() => {
-    fetchLibros();
-  }, []);
+
 
   // useEffect para cargar los movimientos cuando se selecciona un libro
   useEffect(() => {
     if (selectedLibro) {
-      fetchMovimientos(selectedLibro);
+      //fetchMovimientos(selectedLibro);
     }
   }, [selectedLibro]);
 
@@ -29,18 +26,18 @@ const Transactions = () => {
     setLibros(data);
   };
 
-  // Función para obtener la lista de movimientos del API para un libro específico
-  const fetchMovimientos = async (libroId) => {
-    const res = await fetch(`/api/movimientos?libroId=${libroId}`);
-    const data = await res.json();
-    setMovimientos(data);
-  };
+  // // Función para obtener la lista de movimientos del API para un libro específico
+  // const fetchMovimientos = async (libroId) => {
+  //   const res = await fetch(`/api/movimientos?libroId=${libroId}`);
+  //   const data = await res.json();
+  //   setMovimientos(data);
+  // };
 
   // Función para manejar el cambio de selección del libro
-  const handleLibroChange = (e) => {
-    const libroId = e.target.value;
-    setSelectedLibro(libroId);
-  };
+  // const handleLibroChange = (e) => {
+  //   const libroId = e.target.value;
+  //   setSelectedLibro(libroId);
+  // };
 
   // Función para manejar la adición de un nuevo movimiento
   const handleAgregarMovimiento = async () => {
@@ -82,8 +79,8 @@ const Transactions = () => {
           <label htmlFor="libro" className="block mb-2 font-semibold">Seleccione un libro:</label>
           <select id="libro" onChange={handleLibroChange} className="p-2 border rounded w-full max-w-xs">
             <option value="">Seleccione un libro</option>
-            {libros.map((libro) => (
-              <option key={libro.id} value={libro.id}>{libro.nombre}</option>
+            {libros.map((book) => (
+              <option key={book.id} value={book.id}>{book.nombre}</option>
             ))}
           </select>
         </div>

@@ -6,4 +6,5 @@ export declare class UserCreateManyInput {
     image?: string | undefined;
     createdAt?: Date | undefined;
     updatedAt?: Date | undefined;
+    role?: string | undefined;
 }

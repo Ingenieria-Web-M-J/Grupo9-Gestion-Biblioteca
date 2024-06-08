@@ -5,5 +5,6 @@ export declare enum UserScalarFieldEnum {
     emailVerified = "emailVerified",
     image = "image",
     createdAt = "createdAt",
-    updatedAt = "updatedAt"
+    updatedAt = "updatedAt",
+    role = "role"
 }

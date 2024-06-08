@@ -9,6 +9,7 @@ declare const crudResolversMap: {
     Product: typeof crudResolvers.ProductCrudResolver;
     Category: typeof crudResolvers.CategoryCrudResolver;
     Rating: typeof crudResolvers.RatingCrudResolver;
+    Transaction: typeof crudResolvers.TransactionCrudResolver;
     User: typeof crudResolvers.UserCrudResolver;
     Account: typeof crudResolvers.AccountCrudResolver;
     Session: typeof crudResolvers.SessionCrudResolver;
@@ -40,6 +41,7 @@ declare const relationResolversMap: {
     Product: typeof relationResolvers.ProductRelationsResolver;
     Category: typeof relationResolvers.CategoryRelationsResolver;
     Rating: typeof relationResolvers.RatingRelationsResolver;
+    Transaction: typeof relationResolvers.TransactionRelationsResolver;
     User: typeof relationResolvers.UserRelationsResolver;
     Account: typeof relationResolvers.AccountRelationsResolver;
     Session: typeof relationResolvers.SessionRelationsResolver;

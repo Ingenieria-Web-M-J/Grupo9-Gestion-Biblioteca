@@ -6,4 +6,5 @@ export declare class UserMinOrderByAggregateInput {
     image?: "asc" | "desc" | undefined;
     createdAt?: "asc" | "desc" | undefined;
     updatedAt?: "asc" | "desc" | undefined;
+    role?: "asc" | "desc" | undefined;
 }

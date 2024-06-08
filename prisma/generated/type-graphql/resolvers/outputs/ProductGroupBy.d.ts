@@ -10,6 +10,8 @@ export declare class ProductGroupBy {
     price: number;
     image: string;
     categoryId: string;
+    userId: string;
+    balance: number;
     createdAt: Date;
     updatedAt: Date;
     _count: ProductCountAggregate | null;

@@ -6,8 +6,11 @@ const TypeGraphQL = tslib_1.__importStar(require("type-graphql"));
 const CategoryUpdateOneRequiredWithoutProductsNestedInput_1 = require("../inputs/CategoryUpdateOneRequiredWithoutProductsNestedInput");
 const DateTimeFieldUpdateOperationsInput_1 = require("../inputs/DateTimeFieldUpdateOperationsInput");
 const FloatFieldUpdateOperationsInput_1 = require("../inputs/FloatFieldUpdateOperationsInput");
+const IntFieldUpdateOperationsInput_1 = require("../inputs/IntFieldUpdateOperationsInput");
 const RatingUpdateOneWithoutProductNestedInput_1 = require("../inputs/RatingUpdateOneWithoutProductNestedInput");
 const StringFieldUpdateOperationsInput_1 = require("../inputs/StringFieldUpdateOperationsInput");
+const TransactionUpdateManyWithoutProductNestedInput_1 = require("../inputs/TransactionUpdateManyWithoutProductNestedInput");
+const UserUpdateOneRequiredWithoutProductNestedInput_1 = require("../inputs/UserUpdateOneRequiredWithoutProductNestedInput");
 let ProductUpdateInput = class ProductUpdateInput {
 };
 exports.ProductUpdateInput = ProductUpdateInput;
@@ -42,6 +45,12 @@ tslib_1.__decorate([
     tslib_1.__metadata("design:type", StringFieldUpdateOperationsInput_1.StringFieldUpdateOperationsInput)
 ], ProductUpdateInput.prototype, "image", void 0);
 tslib_1.__decorate([
+    TypeGraphQL.Field(_type => IntFieldUpdateOperationsInput_1.IntFieldUpdateOperationsInput, {
+        nullable: true
+    }),
+    tslib_1.__metadata("design:type", IntFieldUpdateOperationsInput_1.IntFieldUpdateOperationsInput)
+], ProductUpdateInput.prototype, "balance", void 0);
+tslib_1.__decorate([
     TypeGraphQL.Field(_type => DateTimeFieldUpdateOperationsInput_1.DateTimeFieldUpdateOperationsInput, {
         nullable: true
     }),
@@ -65,6 +74,18 @@ tslib_1.__decorate([
     }),
     tslib_1.__metadata("design:type", CategoryUpdateOneRequiredWithoutProductsNestedInput_1.CategoryUpdateOneRequiredWithoutProductsNestedInput)
 ], ProductUpdateInput.prototype, "category", void 0);
+tslib_1.__decorate([
+    TypeGraphQL.Field(_type => UserUpdateOneRequiredWithoutProductNestedInput_1.UserUpdateOneRequiredWithoutProductNestedInput, {
+        nullable: true
+    }),
+    tslib_1.__metadata("design:type", UserUpdateOneRequiredWithoutProductNestedInput_1.UserUpdateOneRequiredWithoutProductNestedInput)
+], ProductUpdateInput.prototype, "creator", void 0);
+tslib_1.__decorate([
+    TypeGraphQL.Field(_type => TransactionUpdateManyWithoutProductNestedInput_1.TransactionUpdateManyWithoutProductNestedInput, {
+        nullable: true
+    }),
+    tslib_1.__metadata("design:type", TransactionUpdateManyWithoutProductNestedInput_1.TransactionUpdateManyWithoutProductNestedInput)
+], ProductUpdateInput.prototype, "Transaction", void 0);
 exports.ProductUpdateInput = ProductUpdateInput = tslib_1.__decorate([
     TypeGraphQL.InputType("ProductUpdateInput", {})
 ], ProductUpdateInput);

@@ -6,8 +6,11 @@ const TypeGraphQL = tslib_1.__importStar(require("type-graphql"));
 const CategoryRelationFilter_1 = require("../inputs/CategoryRelationFilter");
 const DateTimeFilter_1 = require("../inputs/DateTimeFilter");
 const FloatFilter_1 = require("../inputs/FloatFilter");
+const IntFilter_1 = require("../inputs/IntFilter");
 const RatingNullableRelationFilter_1 = require("../inputs/RatingNullableRelationFilter");
 const StringFilter_1 = require("../inputs/StringFilter");
+const TransactionListRelationFilter_1 = require("../inputs/TransactionListRelationFilter");
+const UserRelationFilter_1 = require("../inputs/UserRelationFilter");
 let ProductWhereInput = class ProductWhereInput {
 };
 exports.ProductWhereInput = ProductWhereInput;
@@ -66,6 +69,18 @@ tslib_1.__decorate([
     tslib_1.__metadata("design:type", StringFilter_1.StringFilter)
 ], ProductWhereInput.prototype, "categoryId", void 0);
 tslib_1.__decorate([
+    TypeGraphQL.Field(_type => StringFilter_1.StringFilter, {
+        nullable: true
+    }),
+    tslib_1.__metadata("design:type", StringFilter_1.StringFilter)
+], ProductWhereInput.prototype, "userId", void 0);
+tslib_1.__decorate([
+    TypeGraphQL.Field(_type => IntFilter_1.IntFilter, {
+        nullable: true
+    }),
+    tslib_1.__metadata("design:type", IntFilter_1.IntFilter)
+], ProductWhereInput.prototype, "balance", void 0);
+tslib_1.__decorate([
     TypeGraphQL.Field(_type => DateTimeFilter_1.DateTimeFilter, {
         nullable: true
     }),
@@ -89,6 +104,18 @@ tslib_1.__decorate([
     }),
     tslib_1.__metadata("design:type", CategoryRelationFilter_1.CategoryRelationFilter)
 ], ProductWhereInput.prototype, "category", void 0);
+tslib_1.__decorate([
+    TypeGraphQL.Field(_type => UserRelationFilter_1.UserRelationFilter, {
+        nullable: true
+    }),
+    tslib_1.__metadata("design:type", UserRelationFilter_1.UserRelationFilter)
+], ProductWhereInput.prototype, "creator", void 0);
+tslib_1.__decorate([
+    TypeGraphQL.Field(_type => TransactionListRelationFilter_1.TransactionListRelationFilter, {
+        nullable: true
+    }),
+    tslib_1.__metadata("design:type", TransactionListRelationFilter_1.TransactionListRelationFilter)
+], ProductWhereInput.prototype, "Transaction", void 0);
 exports.ProductWhereInput = ProductWhereInput = tslib_1.__decorate([
     TypeGraphQL.InputType("ProductWhereInput", {})
 ], ProductWhereInput);

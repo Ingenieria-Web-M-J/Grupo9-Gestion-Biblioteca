@@ -12,6 +12,8 @@ const Product = gql`
     categoryId: String
     createdAt: Date
     createdAt: Date
+    balance: Int
+    userId: String
   }
   type Rating {
     id: String

@@ -70,6 +70,12 @@ tslib_1.__decorate([
     }),
     tslib_1.__metadata("design:type", DateTimeWithAggregatesFilter_1.DateTimeWithAggregatesFilter)
 ], UserScalarWhereWithAggregatesInput.prototype, "updatedAt", void 0);
+tslib_1.__decorate([
+    TypeGraphQL.Field(_type => StringWithAggregatesFilter_1.StringWithAggregatesFilter, {
+        nullable: true
+    }),
+    tslib_1.__metadata("design:type", StringWithAggregatesFilter_1.StringWithAggregatesFilter)
+], UserScalarWhereWithAggregatesInput.prototype, "role", void 0);
 exports.UserScalarWhereWithAggregatesInput = UserScalarWhereWithAggregatesInput = tslib_1.__decorate([
     TypeGraphQL.InputType("UserScalarWhereWithAggregatesInput", {})
 ], UserScalarWhereWithAggregatesInput);

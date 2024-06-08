@@ -6,4 +6,5 @@ export declare class UserMinAggregate {
     image: string | null;
     createdAt: Date | null;
     updatedAt: Date | null;
+    role: string | null;
 }

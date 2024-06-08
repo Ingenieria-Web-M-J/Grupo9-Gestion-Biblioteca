@@ -48,6 +48,18 @@ tslib_1.__decorate([
     tslib_1.__metadata("design:type", String)
 ], ProductGroupBy.prototype, "categoryId", void 0);
 tslib_1.__decorate([
+    TypeGraphQL.Field(_type => String, {
+        nullable: false
+    }),
+    tslib_1.__metadata("design:type", String)
+], ProductGroupBy.prototype, "userId", void 0);
+tslib_1.__decorate([
+    TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+        nullable: false
+    }),
+    tslib_1.__metadata("design:type", Number)
+], ProductGroupBy.prototype, "balance", void 0);
+tslib_1.__decorate([
     TypeGraphQL.Field(_type => Date, {
         nullable: false
     }),

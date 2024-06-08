@@ -6,5 +6,6 @@ export declare class UserCountAggregate {
     image: number;
     createdAt: number;
     updatedAt: number;
+    role: number;
     _all: number;
 }

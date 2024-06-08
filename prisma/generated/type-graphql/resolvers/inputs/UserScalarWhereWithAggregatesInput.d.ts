@@ -13,4 +13,5 @@ export declare class UserScalarWhereWithAggregatesInput {
     image?: StringNullableWithAggregatesFilter | undefined;
     createdAt?: DateTimeWithAggregatesFilter | undefined;
     updatedAt?: DateTimeWithAggregatesFilter | undefined;
+    role?: StringWithAggregatesFilter | undefined;
 }

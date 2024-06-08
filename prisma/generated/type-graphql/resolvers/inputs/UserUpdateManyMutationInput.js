@@ -52,6 +52,12 @@ tslib_1.__decorate([
     }),
     tslib_1.__metadata("design:type", DateTimeFieldUpdateOperationsInput_1.DateTimeFieldUpdateOperationsInput)
 ], UserUpdateManyMutationInput.prototype, "updatedAt", void 0);
+tslib_1.__decorate([
+    TypeGraphQL.Field(_type => StringFieldUpdateOperationsInput_1.StringFieldUpdateOperationsInput, {
+        nullable: true
+    }),
+    tslib_1.__metadata("design:type", StringFieldUpdateOperationsInput_1.StringFieldUpdateOperationsInput)
+], UserUpdateManyMutationInput.prototype, "role", void 0);
 exports.UserUpdateManyMutationInput = UserUpdateManyMutationInput = tslib_1.__decorate([
     TypeGraphQL.InputType("UserUpdateManyMutationInput", {})
 ], UserUpdateManyMutationInput);

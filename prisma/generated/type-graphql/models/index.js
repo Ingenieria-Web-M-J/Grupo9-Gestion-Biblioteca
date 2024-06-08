@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.VerificationToken = exports.User = exports.Session = exports.Rating = exports.Product = exports.Category = exports.Account = void 0;
+exports.VerificationToken = exports.User = exports.Transaction = exports.Session = exports.Rating = exports.Product = exports.Category = exports.Account = void 0;
 var Account_1 = require("./Account");
 Object.defineProperty(exports, "Account", { enumerable: true, get: function () { return Account_1.Account; } });
 var Category_1 = require("./Category");
@@ -11,6 +11,8 @@ var Rating_1 = require("./Rating");
 Object.defineProperty(exports, "Rating", { enumerable: true, get: function () { return Rating_1.Rating; } });
 var Session_1 = require("./Session");
 Object.defineProperty(exports, "Session", { enumerable: true, get: function () { return Session_1.Session; } });
+var Transaction_1 = require("./Transaction");
+Object.defineProperty(exports, "Transaction", { enumerable: true, get: function () { return Transaction_1.Transaction; } });
 var User_1 = require("./User");
 Object.defineProperty(exports, "User", { enumerable: true, get: function () { return User_1.User; } });
 var VerificationToken_1 = require("./VerificationToken");

@@ -4,6 +4,8 @@ exports.UserCreateWithoutSessionsInput = void 0;
 const tslib_1 = require("tslib");
 const TypeGraphQL = tslib_1.__importStar(require("type-graphql"));
 const AccountCreateNestedManyWithoutUserInput_1 = require("../inputs/AccountCreateNestedManyWithoutUserInput");
+const ProductCreateNestedManyWithoutCreatorInput_1 = require("../inputs/ProductCreateNestedManyWithoutCreatorInput");
+const TransactionCreateNestedManyWithoutUserInput_1 = require("../inputs/TransactionCreateNestedManyWithoutUserInput");
 let UserCreateWithoutSessionsInput = class UserCreateWithoutSessionsInput {
 };
 exports.UserCreateWithoutSessionsInput = UserCreateWithoutSessionsInput;
@@ -50,11 +52,29 @@ tslib_1.__decorate([
     tslib_1.__metadata("design:type", Date)
 ], UserCreateWithoutSessionsInput.prototype, "updatedAt", void 0);
 tslib_1.__decorate([
+    TypeGraphQL.Field(_type => String, {
+        nullable: true
+    }),
+    tslib_1.__metadata("design:type", String)
+], UserCreateWithoutSessionsInput.prototype, "role", void 0);
+tslib_1.__decorate([
     TypeGraphQL.Field(_type => AccountCreateNestedManyWithoutUserInput_1.AccountCreateNestedManyWithoutUserInput, {
         nullable: true
     }),
     tslib_1.__metadata("design:type", AccountCreateNestedManyWithoutUserInput_1.AccountCreateNestedManyWithoutUserInput)
 ], UserCreateWithoutSessionsInput.prototype, "accounts", void 0);
+tslib_1.__decorate([
+    TypeGraphQL.Field(_type => ProductCreateNestedManyWithoutCreatorInput_1.ProductCreateNestedManyWithoutCreatorInput, {
+        nullable: true
+    }),
+    tslib_1.__metadata("design:type", ProductCreateNestedManyWithoutCreatorInput_1.ProductCreateNestedManyWithoutCreatorInput)
+], UserCreateWithoutSessionsInput.prototype, "Product", void 0);
+tslib_1.__decorate([
+    TypeGraphQL.Field(_type => TransactionCreateNestedManyWithoutUserInput_1.TransactionCreateNestedManyWithoutUserInput, {
+        nullable: true
+    }),
+    tslib_1.__metadata("design:type", TransactionCreateNestedManyWithoutUserInput_1.TransactionCreateNestedManyWithoutUserInput)
+], UserCreateWithoutSessionsInput.prototype, "Transaction", void 0);
 exports.UserCreateWithoutSessionsInput = UserCreateWithoutSessionsInput = tslib_1.__decorate([
     TypeGraphQL.InputType("UserCreateWithoutSessionsInput", {})
 ], UserCreateWithoutSessionsInput);

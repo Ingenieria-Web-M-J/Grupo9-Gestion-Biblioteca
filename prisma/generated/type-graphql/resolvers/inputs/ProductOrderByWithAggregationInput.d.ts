@@ -10,6 +10,8 @@ export declare class ProductOrderByWithAggregationInput {
     price?: "asc" | "desc" | undefined;
     image?: "asc" | "desc" | undefined;
     categoryId?: "asc" | "desc" | undefined;
+    userId?: "asc" | "desc" | undefined;
+    balance?: "asc" | "desc" | undefined;
     createdAt?: "asc" | "desc" | undefined;
     updatedAt?: "asc" | "desc" | undefined;
     _count?: ProductCountOrderByAggregateInput | undefined;

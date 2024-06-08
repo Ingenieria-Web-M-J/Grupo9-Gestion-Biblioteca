@@ -6,4 +6,5 @@ export declare class UserMaxAggregate {
     image: string | null;
     createdAt: Date | null;
     updatedAt: Date | null;
+    role: string | null;
 }

@@ -9,6 +9,7 @@ export declare class UserGroupBy {
     image: string | null;
     createdAt: Date;
     updatedAt: Date;
+    role: string;
     _count: UserCountAggregate | null;
     _min: UserMinAggregate | null;
     _max: UserMaxAggregate | null;

@@ -7,5 +7,6 @@ export { RatingScalarFieldEnum } from "./RatingScalarFieldEnum";
 export { SessionScalarFieldEnum } from "./SessionScalarFieldEnum";
 export { SortOrder } from "./SortOrder";
 export { TransactionIsolationLevel } from "./TransactionIsolationLevel";
+export { TransactionScalarFieldEnum } from "./TransactionScalarFieldEnum";
 export { UserScalarFieldEnum } from "./UserScalarFieldEnum";
 export { VerificationTokenScalarFieldEnum } from "./VerificationTokenScalarFieldEnum";

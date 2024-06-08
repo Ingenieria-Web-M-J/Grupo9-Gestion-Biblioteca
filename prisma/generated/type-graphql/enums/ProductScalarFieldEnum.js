@@ -11,6 +11,8 @@ var ProductScalarFieldEnum;
     ProductScalarFieldEnum["price"] = "price";
     ProductScalarFieldEnum["image"] = "image";
     ProductScalarFieldEnum["categoryId"] = "categoryId";
+    ProductScalarFieldEnum["userId"] = "userId";
+    ProductScalarFieldEnum["balance"] = "balance";
     ProductScalarFieldEnum["createdAt"] = "createdAt";
     ProductScalarFieldEnum["updatedAt"] = "updatedAt";
 })(ProductScalarFieldEnum || (exports.ProductScalarFieldEnum = ProductScalarFieldEnum = {}));
