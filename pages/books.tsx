@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
-import { useQuery } from '@apollo/client';
+import { useQuery, useMutation } from '@apollo/client';
 import { GET_PRODUCTS } from '@/utils/queries/products';
+import { productsUpsertTrasnformations } from '@/utils/transformations/products';
+import useFormData from '@/hooks/useFormData';
+import { toast } from 'react-toastify';
+import { UPSERT_PRODUCT } from '@/utils/mutations/products';
 
 // Componente principal para manejar la lista de libros
 const Books: React.FC = () => {
@@ -10,7 +14,8 @@ const Books: React.FC = () => {
   const [showDialog, setShowDialog] = useState(false); // Estado para controlar la visibilidad del cuadro de diálogo de agregar libro
   const [name, setName] = useState(''); // Estado para almacenar el nombre del nuevo libro
   const [balance, setBalance] = useState<number>(0); // Estado para almacenar el saldo inicial del nuevo libro
-  //const [loading, setLoading] = useState(false); // Estado para controlar la animación de carga
+  const [upsertProduct, { loading: loadingMutations }] = useMutation(UPSERT_PRODUCT);
+  const [id, setId] = useState('new'); // Estado para almacenar el ID del libro seleccionado
 
   //Traer productos
   const {loading} = useQuery(GET_PRODUCTS, {
@@ -27,22 +32,48 @@ const Books: React.FC = () => {
   });
 
 
-  if (loading) return <h1>Loading...</h1>;
+  
 
   // Función para manejar la adición de un nuevo libro
-  //const handleAddMaestro = 
+  const handleAddMaestro = async (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+    
+    const { dataCreate, dataUpdate } = productsUpsertTrasnformations({
+      name,
+      balance,
+      creator: session?.user?.email,
+    });
+    await upsertProduct({
+      variables: {
+        where: {
+          id: "",
+        },
+        create: dataCreate,
+        update: dataUpdate,
+      },
+    })
+      .then(async () => {
+        toast.success('Product saved');
+        
+      })
+      .catch((error: any) => {
+        toast.error('Error saving product');
+        console.error(error);
+      });
+  };
+  
 
   // Función para manejar el cambio del saldo inicial
   const handleBalanceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseInt(e.target.value, 10);
     if (!isNaN(value) && value >= 0) {
-      setBalance(value); // Actualizar el estado con el nuevo valor
+      setBalance(value); // Actualizar el estado con el nuevo valor del saldo
     } else {
       setBalance(0); // Establecer el saldo en 0 si el valor no es válido
     }
   };
 
-
+  if (loading) return <h1>Loading...</h1>;
   return (
     <div className="flex bg-blue-100 min-h-screen">
       <div className="flex-1 p-6">
@@ -104,7 +135,7 @@ const Books: React.FC = () => {
                 />
               </div>
               <button
-                //onClick={handleAddMaestro}
+                onClick={handleAddMaestro}
                 className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
               >
                 {loading ? 'Cargando...' : 'Agregar'}

@@ -4,13 +4,13 @@ import { UserCreateNestedOneWithoutProductInput } from "../inputs/UserCreateNest
 export declare class ProductCreateWithoutRatingInput {
     id?: string | undefined;
     title: string;
-    description: string;
-    price: number;
-    image: string;
+    description?: string | undefined;
+    price?: number | undefined;
+    image?: string | undefined;
     balance?: number | undefined;
     createdAt?: Date | undefined;
     updatedAt?: Date | undefined;
-    category: CategoryCreateNestedOneWithoutProductsInput;
+    category?: CategoryCreateNestedOneWithoutProductsInput | undefined;
     creator: UserCreateNestedOneWithoutProductInput;
     Transaction?: TransactionCreateNestedManyWithoutProductInput | undefined;
 }

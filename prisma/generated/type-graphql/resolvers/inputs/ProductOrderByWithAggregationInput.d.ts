@@ -3,13 +3,14 @@ import { ProductCountOrderByAggregateInput } from "../inputs/ProductCountOrderBy
 import { ProductMaxOrderByAggregateInput } from "../inputs/ProductMaxOrderByAggregateInput";
 import { ProductMinOrderByAggregateInput } from "../inputs/ProductMinOrderByAggregateInput";
 import { ProductSumOrderByAggregateInput } from "../inputs/ProductSumOrderByAggregateInput";
+import { SortOrderInput } from "../inputs/SortOrderInput";
 export declare class ProductOrderByWithAggregationInput {
     id?: "asc" | "desc" | undefined;
     title?: "asc" | "desc" | undefined;
-    description?: "asc" | "desc" | undefined;
-    price?: "asc" | "desc" | undefined;
-    image?: "asc" | "desc" | undefined;
-    categoryId?: "asc" | "desc" | undefined;
+    description?: SortOrderInput | undefined;
+    price?: SortOrderInput | undefined;
+    image?: SortOrderInput | undefined;
+    categoryId?: SortOrderInput | undefined;
     userId?: "asc" | "desc" | undefined;
     balance?: "asc" | "desc" | undefined;
     createdAt?: "asc" | "desc" | undefined;

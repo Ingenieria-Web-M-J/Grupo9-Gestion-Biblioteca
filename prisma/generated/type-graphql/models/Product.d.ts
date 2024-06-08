@@ -6,12 +6,12 @@ import { ProductCount } from "../resolvers/outputs/ProductCount";
 export declare class Product {
     id: string;
     title: string;
-    description: string;
-    price: number;
-    image: string;
+    description?: string | null;
+    price?: number | null;
+    image?: string | null;
     rating?: Rating | null;
-    category?: Category;
-    categoryId: string;
+    category?: Category | null;
+    categoryId?: string | null;
     creator?: User;
     userId: string;
     balance: number;

@@ -22,12 +22,12 @@ generator typegraphql {
 model Product {
   id          String        @id @default(cuid())
   title       String
-  description String
-  price       Float
-  image       String
+  description String?
+  price       Float?
+  image       String?
   rating      Rating?
-  category    Category      @relation(fields: [categoryId], references: [id])
-  categoryId  String
+  category    Category?      @relation(fields: [categoryId], references: [id])
+  categoryId  String?
   creator     User          @relation(fields: [userId], references: [id])
   userId      String
   balance     Int           @default(0)

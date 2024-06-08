@@ -4,6 +4,7 @@ import { ProductType } from '@/types';
 import { useQuery } from '@apollo/client';
 import { useRouter } from 'next/router';
 import { GET_PRODUCTS } from '@/utils/queries/products';
+
 const Index = ({ countProducts }: any) => {
   const [products, setProducts] = useState<ProductType[]>([]);
   const [search, setSearch] = useState('');

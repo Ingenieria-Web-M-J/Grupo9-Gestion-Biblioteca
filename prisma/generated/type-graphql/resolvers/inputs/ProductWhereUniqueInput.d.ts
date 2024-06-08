@@ -1,10 +1,11 @@
-import { CategoryRelationFilter } from "../inputs/CategoryRelationFilter";
+import { CategoryNullableRelationFilter } from "../inputs/CategoryNullableRelationFilter";
 import { DateTimeFilter } from "../inputs/DateTimeFilter";
-import { FloatFilter } from "../inputs/FloatFilter";
+import { FloatNullableFilter } from "../inputs/FloatNullableFilter";
 import { IntFilter } from "../inputs/IntFilter";
 import { ProductWhereInput } from "../inputs/ProductWhereInput";
 import { RatingNullableRelationFilter } from "../inputs/RatingNullableRelationFilter";
 import { StringFilter } from "../inputs/StringFilter";
+import { StringNullableFilter } from "../inputs/StringNullableFilter";
 import { TransactionListRelationFilter } from "../inputs/TransactionListRelationFilter";
 import { UserRelationFilter } from "../inputs/UserRelationFilter";
 export declare class ProductWhereUniqueInput {
@@ -13,16 +14,16 @@ export declare class ProductWhereUniqueInput {
     OR?: ProductWhereInput[] | undefined;
     NOT?: ProductWhereInput[] | undefined;
     title?: StringFilter | undefined;
-    description?: StringFilter | undefined;
-    price?: FloatFilter | undefined;
-    image?: StringFilter | undefined;
-    categoryId?: StringFilter | undefined;
+    description?: StringNullableFilter | undefined;
+    price?: FloatNullableFilter | undefined;
+    image?: StringNullableFilter | undefined;
+    categoryId?: StringNullableFilter | undefined;
     userId?: StringFilter | undefined;
     balance?: IntFilter | undefined;
     createdAt?: DateTimeFilter | undefined;
     updatedAt?: DateTimeFilter | undefined;
     rating?: RatingNullableRelationFilter | undefined;
-    category?: CategoryRelationFilter | undefined;
+    category?: CategoryNullableRelationFilter | undefined;
     creator?: UserRelationFilter | undefined;
     Transaction?: TransactionListRelationFilter | undefined;
 }

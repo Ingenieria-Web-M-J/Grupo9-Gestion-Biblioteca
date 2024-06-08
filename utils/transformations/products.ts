@@ -1,40 +1,28 @@
 export const productsUpsertTrasnformations = ({
-  formData,
-  category,
+  name,
+  balance,
+  creator
 }: {
-  formData: any;
-  category: any;
+  name: any;
+  balance: any;
+  creator: any;
 }) => {
   const dataCreate = {
-    title: formData.title,
-    price: parseFloat(formData.price),
-    image: formData.image,
-    description: formData.description,
-    category: {
+    title: name,
+    balance: balance,
+    creator: {
       connect: {
-        id: category.value,
-      },
+        email: creator,
+      }
     },
+
   };
   const dataUpdate = {
-    title: {
-      set: formData.title,
-    },
-    price: {
-      set: parseFloat(formData.price),
-    },
-    description: {
-      set: formData.description,
-    },
-    image: {
-      set: formData.image,
-    },
-    category: {
-      connect: {
-        id: category.value,
-      },
+    balance: {
+      set: balance,
     },
   };
+  
   return {
     dataCreate,
     dataUpdate,
