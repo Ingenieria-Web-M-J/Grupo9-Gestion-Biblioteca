@@ -6,7 +6,7 @@ import { GET_PRODUCTS } from '@/utils/queries/products';
 // Componente principal para manejar la lista de libros
 const Books: React.FC = () => {
   const { data: session } = useSession(); // Obtener la sesión actual utilizando NextAuth
-  const [Books, setBooks] = useState<any[]>([]); // Estado para almacenar la lista de libros
+  const [books, setBooks] = useState<any[]>([]); // Estado para almacenar la lista de libros
   const [showDialog, setShowDialog] = useState(false); // Estado para controlar la visibilidad del cuadro de diálogo de agregar libro
   const [name, setName] = useState(''); // Estado para almacenar el nombre del nuevo libro
   const [balance, setBalance] = useState<number>(0); // Estado para almacenar el saldo inicial del nuevo libro
@@ -58,7 +58,7 @@ const Books: React.FC = () => {
             </tr>
           </thead>
           <tbody>
-            {Books.map((book) => (
+            {books.map((book) => (
               <tr key={book.id}>
                 <td className="border p-2">{book.id}</td>
                 <td className="border p-2">{book.title}</td>

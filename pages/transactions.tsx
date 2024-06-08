@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import { useQuery } from '@apollo/client';
+import { GET_TRANSACTION_BY_ID } from '@/utils/queries/transactions';
+
 
 // Componente principal para manejar las transacciones de los libros
 const Transactions = () => {
-  const [libros, setLibros] = useState<any[]>([]); // Estado para almacenar la lista de libros
-  const [movimientos, setMovimientos] = useState<any[]>([]); // Estado para almacenar la lista de movimientos
-  const [selectedLibro, setSelectedLibro] = useState(''); // Estado para almacenar el libro seleccionado
+  const [books, setBooks] = useState<any[]>([]); // Estado para almacenar la lista de libros
+  const [movimientos, setTransactions] = useState([]); // Estado para almacenar la lista de movimientos
+  const [selectedLibro, setSelectedLibro] = useState(null); // Estado para almacenar el libro seleccionado
   const [loading, setLoading] = useState(false); // Estado para controlar la animación de carga
   const [isModalOpen, setIsModalOpen] = useState(false); // Estado para controlar la visibilidad del modal
   const [modalTipo, setModalTipo] = useState('ENTRADA'); // Estado para almacenar el tipo de movimiento en el modal
@@ -23,15 +26,28 @@ const Transactions = () => {
   const fetchLibros = async () => {
     const res = await fetch('/api/libros');
     const data = await res.json();
-    setLibros(data);
+    setBooks(data);
   };
 
-  //  Función para obtener la lista de movimientos del API para un libro específico
-   const fetchMovimientos = async (libroId: any) => {
-     const res = await fetch(`/api/movimientos?libroId=${libroId}`);
-    const data = await res.json();
-     setMovimientos(data);
-   };
+  // Función para obtener la lista de movimientos del API para un libro específico
+  // const fetchMovimientos 
+  //   const {loading} = useQuery(GET_TRANSACTION_BY_ID, {
+  //     variables: {
+  //       take: 10,
+  //       skip: 0,
+  //       where: {
+  //         product: {
+  //           id: bookId,
+  //         },
+  //       },
+  //     },
+  //     fetchPolicy: 'cache-and-network',
+  //     onCompleted(data) {
+  //       console.log(data);
+  //       setTransactions(data.transactions);
+  //     },
+  //   });
+  // };
 
    //Función para manejar el cambio de selección del libro
    const handleLibroChange = (e: { target: { value: any; }; }) => {
@@ -41,7 +57,7 @@ const Transactions = () => {
 
   // Función para manejar la adición de un nuevo movimiento
   const handleAgregarMovimiento = async () => {
-    setLoading(true);
+    //setLoading(true);
     const res = await fetch('/api/movimientos', {
       method: 'POST',
       headers: {
@@ -54,7 +70,7 @@ const Transactions = () => {
         usuarioId: '1234', // Identificador ficticio del usuario
       }),
     });
-    setLoading(false);
+    //setLoading(false);
     if (res.ok) {
       setMovimientos([]); // Recargar la lista de movimientos
       setIsModalOpen(false); // Cerrar el modal
@@ -79,7 +95,7 @@ const Transactions = () => {
           <label htmlFor="libro" className="block mb-2 font-semibold">Seleccione un libro:</label>
           <select id="libro" onChange={handleLibroChange} className="p-2 border rounded w-full max-w-xs">
             <option value="">Seleccione un libro</option>
-            {libros.map((book) => (
+            {books.map((book) => (
               <option key={book.id} value={book.id}>{book.nombre}</option>
             ))}
           </select>
@@ -148,7 +164,7 @@ const Transactions = () => {
                 </button>
                 <button
                   onClick={handleAgregarMovimiento}
-                  disabled={loading}
+                  //disabled={loading}
                   className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
                 >
                   {loading ? 'Cargando...' : 'Agregar Movimiento'}
