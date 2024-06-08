@@ -8,6 +8,7 @@ const GET_USERS = gql`
     image
     email
     createdAt
+    role
   }
 }
 
