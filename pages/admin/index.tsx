@@ -3,7 +3,6 @@ import { useSession } from 'next-auth/react';
 import { useQuery } from '@apollo/client';
 import { GET_USERS } from '@/utils/queries/users';
 
-// Definición del tipo User para tipar los datos del usuario
 type User = {
   id: number;
   createdAt: string;
@@ -12,55 +11,47 @@ type User = {
 };
 
 const Usuarios: React.FC = () => {
-  // Obtener la sesión actual utilizando NextAuth
   const { data: session } = useSession();
-  
-  // Estado para almacenar la lista de usuarios
   const [users, setUsers] = useState<User[]>([]);
-  
-  // Estado para controlar la visibilidad del diálogo de edición
   const [showDialog, setShowDialog] = useState(false);
-  
-  // Estado para almacenar el usuario seleccionado para edición
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
-  
-  // Estado para almacenar el rol seleccionado en el diálogo de edición
   const [selectedRole, setSelectedRole] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  //Traer usuarios
-  const {loading} = useQuery(GET_USERS, {
+  const { loading: queryLoading } = useQuery(GET_USERS, {
     variables: {
       take: 10,
       skip: 0,
     },
-    //Politica para obtener los datos de la cache y no estar consultando siempre al servidor
     fetchPolicy: 'cache-and-network',
     onCompleted(data) {
-      console.log(data);
       setUsers(data.users);
     },
   });
 
-
- 
-
-  // Función para manejar la edición de un usuario
   const handleEditUser = (user: User | null) => {
     setSelectedUser(user);
     setSelectedRole(user?.role || '');
     setShowDialog(true);
   };
 
-  // // Función para actualizar el usuario en el API
-  // const handleUpdateUser = async () => {
-  //   setLoading(true);
-  //   // Lógica para actualizar el usuario aquí
-  //   setLoading(false);
-  //   setShowDialog(false);
-  //   fetchUsuarios();
-  // };
+  const handleUpdateUser = async () => {
+    setLoading(true);
+    // Lógica para actualizar el usuario aquí
+    // Simulando una actualización exitosa
+    setTimeout(() => {
+      setLoading(false);
+      setShowDialog(false);
+      // Actualizar la lista de usuarios
+      setUsers((prevUsers) =>
+        prevUsers.map((u) =>
+          u.id === selectedUser?.id ? { ...u, role: selectedRole } : u
+        )
+      );
+    }, 1000);
+  };
 
-  if (loading) return <h1>Loading...</h1>;
+  if (queryLoading) return <h1>Loading...</h1>;
   return (
     <div className="flex flex-col items-center bg-blue-100 min-h-screen p-6">
       <div className="bg-white shadow-lg rounded-lg p-6 w-full lg:w-3/4 xl:w-2/3">
@@ -111,26 +102,25 @@ const Usuarios: React.FC = () => {
                   id="role"
                   value={selectedRole}
                   onChange={(e) => setSelectedRole(e.target.value)}
-                  className="w-full p-2 border rounded"
+                  className="block w-full p-2 border border-gray-300 rounded"
                 >
-                  <option value="admin">Admin</option>
-                  <option value="user">User</option>
-                  {/* Agrega otros roles según sea necesario */}
+                  <option value="USER">Usuario</option>
+                  <option value="ADMIN">Administrador</option>
                 </select>
               </div>
               <div className="flex justify-end">
                 <button
-                  //onClick={handleUpdateUser}
-                  disabled={loading}
-                  className="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition duration-200 mr-2"
-                >
-                  {loading ? 'Cargando...' : 'Actualizar'}
-                </button>
-                <button
                   onClick={() => setShowDialog(false)}
-                  className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition duration-200"
+                  className="px-4 py-2 bg-gray-400 text-white rounded hover:bg-gray-500 transition duration-200 mr-2"
                 >
                   Cancelar
+                </button>
+                <button
+                  onClick={handleUpdateUser}
+                  className="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition duration-200"
+                  disabled={loading}
+                >
+                  {loading ? 'Guardando...' : 'Guardar'}
                 </button>
               </div>
             </div>
@@ -142,6 +132,8 @@ const Usuarios: React.FC = () => {
 };
 
 export default Usuarios;
+
+
 
 
 

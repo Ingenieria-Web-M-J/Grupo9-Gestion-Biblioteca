@@ -1,11 +1,15 @@
 import React from 'react';
 import Sidebar from './Sidebar';
 
-const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+interface LayoutProps {
+  children: React.ReactNode;
+}
+
+const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
-    <div className="flex flex-col lg:flex-row">
+    <div className="flex flex-col lg:flex-row min-h-screen">
       <Sidebar />
-      <main className="flex-1 p-8 lg:ml-64 lg:w-4/5">
+      <main className="flex-1 p-8 lg:ml-4/5 lg:w-1/5">
         {children}
       </main>
     </div>
@@ -13,5 +17,8 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 };
 
 export default Layout;
+
+
+
 
 

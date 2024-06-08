@@ -49,11 +49,11 @@ const Transactions = () => {
   //   });
   // };
 
-  // Función para manejar el cambio de selección del libro
-  const handleLibroChange = (e) => {
-    const libroId = e.target.value;
-    setSelectedLibro(libroId);
-  };
+   //Función para manejar el cambio de selección del libro
+   const handleLibroChange = (e: { target: { value: any; }; }) => {
+     const libroId = e.target.value;
+     setSelectedLibro(libroId);
+   };
 
   // Función para manejar la adición de un nuevo movimiento
   const handleAgregarMovimiento = async () => {
@@ -72,13 +72,13 @@ const Transactions = () => {
     });
     //setLoading(false);
     if (res.ok) {
-      fetchMovimientos(selectedLibro); // Recargar la lista de movimientos
+      setMovimientos([]); // Recargar la lista de movimientos
       setIsModalOpen(false); // Cerrar el modal
     }
   };
 
   // Función para manejar el cambio en el número de unidades en el modal
-  const handleUnidadesChange = (e) => {
+  const handleUnidadesChange = (e: { target: { value: string; }; }) => {
     const value = parseInt(e.target.value, 10);
     if (!isNaN(value) && value > 0) {
       setModalUnidades(value); // Actualizar el estado con el nuevo valor
