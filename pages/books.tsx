@@ -14,9 +14,10 @@ const Books: React.FC = () => {
   const [name, setName] = useState(''); // Estado para almacenar el nombre del nuevo libro
   const [balance, setBalance] = useState<number>(0); // Estado para almacenar el saldo inicial del nuevo libro
   const [createProduct, { loading: loadingMutations }] = useMutation(CREATE_PRODUCT);
-
+  const [loading, setLoading] = useState(false);
+  
   //Traer productos
-  const {loading} = useQuery(GET_PRODUCTS, {
+  const {loading: queryLoading} = useQuery(GET_PRODUCTS, {
     variables: {
       take: 10,
       skip: 0,
@@ -83,7 +84,7 @@ const Books: React.FC = () => {
     }
   };
 
-  if (loading) return <h1>Loading...</h1>;
+  if (queryLoading) return <h1>Loading...</h1>;
   return (
     <div className="flex bg-blue-100 min-h-screen">
       <div className="flex-1 p-6">
@@ -148,7 +149,8 @@ const Books: React.FC = () => {
                 onClick={handleAddMaestro}
                 className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
               >
-                {loading ? 'Cargando...' : 'Agregar'}
+
+                {loadingMutations ? 'Cargando...' : 'Agregar'}
               </button>
               <button
                 onClick={() => setShowDialog(false)}

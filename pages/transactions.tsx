@@ -1,75 +1,109 @@
 import React, { useState, useEffect } from 'react';
-import { useQuery } from '@apollo/client';
+import { useQuery, useMutation } from '@apollo/client';
+import { GET_PRODUCTS } from '@/utils/queries/products';
 import { GET_TRANSACTION_BY_ID } from '@/utils/queries/transactions';
+import {useApolloClient } from '@apollo/client';
 
+
+type Book = {
+  id: number;
+  name: String;
+  balance: number;
+  creator: string;
+};
 
 // Componente principal para manejar las transacciones de los libros
 const Transactions = () => {
   const [books, setBooks] = useState<any[]>([]); // Estado para almacenar la lista de libros
-  const [movimientos, setTransactions] = useState([]); // Estado para almacenar la lista de movimientos
-  const [selectedLibro, setSelectedLibro] = useState(null); // Estado para almacenar el libro seleccionado
+  const [transactions, setTransactions] = useState([]); // Estado para almacenar la lista de movimientos
+  const [selectedLibro, setSelectedLibro] = useState<Book | null>(null); // Estado para almacenar el libro seleccionado
   const [loading, setLoading] = useState(false); // Estado para controlar la animación de carga
   const [isModalOpen, setIsModalOpen] = useState(false); // Estado para controlar la visibilidad del modal
   const [modalTipo, setModalTipo] = useState('ENTRADA'); // Estado para almacenar el tipo de movimiento en el modal
   const [modalUnidades, setModalUnidades] = useState(1); // Estado para almacenar las unidades en el modal
+  
+  const client = useApolloClient();
 
-
+  //Traer los libros y colocarlos para seleccionar
+  const {loading: queryLoading} = useQuery(GET_PRODUCTS, {
+    variables: {
+      take: 10,
+      skip: 0,
+    },
+    //Politica para obtener los datos de la cache y no estar consultando siempre al servidor
+    fetchPolicy: 'cache-and-network',
+    onCompleted(data) {
+      console.log(data);
+      setBooks(data.products);
+    },
+  });
 
   // useEffect para cargar los movimientos cuando se selecciona un libro
   useEffect(() => {
-    if (selectedLibro) {
-      //fetchMovimientos(selectedLibro);
-    }
+    // if (selectedLibro) {
+    //   setTransactions([]);
+    //   fetchTransactions(selectedLibro);
+    // }
   }, [selectedLibro]);
 
-  
-
   //Función para obtener la lista de movimientos del API para un libro específico
-  // const fetchMovimientos 
-  //   const {loading} = useQuery(GET_TRANSACTION_BY_ID, {
-  //     variables: {
-  //       take: 10,
-  //       skip: 0,
-  //       where: {
-  //         product: {
-  //           id: bookId,
-  //         },
-  //       },
-  //     },
-  //     fetchPolicy: 'cache-and-network',
-  //     onCompleted(data) {
-  //       console.log(data);
-  //       setTransactions(data.transactions);
-  //     },
-  //   });
-  // };
+  const fetchTransactions = async (selectedLibro: any) => {
+    console.log("selectedLibro")
+    console.log(selectedLibro)
+    setLoading(true);
+    setTransactions([]);
+    try {
+      const { data } = await client.query({
+        query: GET_TRANSACTION_BY_ID,
+        variables: {
+          take: 10,
+          skip: 0,
+          where: {
+            product: {
+              id: selectedLibro?.id
+            },
+          },
+        },
+        fetchPolicy: 'network-only' //Traer los datos siempre del servidor
+      },
+    );
+      setLoading(false);
+      console.log(data);
+      setTransactions(data.transactions);
+    } catch (error) {
+      setLoading(false);
+      console.error("Error fetching transactions:", error);
+    }
+  }
 
    //Función para manejar el cambio de selección del libro
-   const handleLibroChange = (e: { target: { value: any; }; }) => {
-     const libroId = e.target.value;
-     setSelectedLibro(libroId);
-   };
+  const handleLibroChange = (e: { target: { value: any; }; }) => {
+    const libroId = e.target.value;
+    setSelectedLibro(libroId);
+    setTransactions([]);
+    fetchTransactions(libroId);
+  };
 
   // Función para manejar la adición de un nuevo movimiento
   const handleAgregarMovimiento = async () => {
     //setLoading(true);
-    const res = await fetch('/api/movimientos', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        libroId: selectedLibro,
-        tipo: modalTipo,
-        unidades: modalUnidades,
-        usuarioId: '1234', // Identificador ficticio del usuario
-      }),
-    });
-    //setLoading(false);
-    if (res.ok) {
-      setMovimientos([]); // Recargar la lista de movimientos
-      setIsModalOpen(false); // Cerrar el modal
-    }
+    // const res = await fetch('/api/movimientos', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: JSON.stringify({
+    //     libroId: selectedLibro,
+    //     tipo: modalTipo,
+    //     unidades: modalUnidades,
+    //     usuarioId: '1234', // Identificador ficticio del usuario
+    //   }),
+    // });
+    // //setLoading(false);
+    // if (res.ok) {
+    //   setTransactions([]); // Recargar la lista de movimientos
+    //   setIsModalOpen(false); // Cerrar el modal
+    // }
   };
 
   // Función para manejar el cambio en el número de unidades en el modal
@@ -82,6 +116,7 @@ const Transactions = () => {
     }
   };
 
+  if (queryLoading) return <h1>Loading...</h1>;
   return (
     <div className="bg-blue-100 min-h-screen">
       <div className="container mx-auto px-4 py-6">
@@ -91,7 +126,7 @@ const Transactions = () => {
           <select id="libro" onChange={handleLibroChange} className="p-2 border rounded w-full max-w-xs">
             <option value="">Seleccione un libro</option>
             {books.map((book) => (
-              <option key={book.id} value={book.id}>{book.nombre}</option>
+              <option key={book.id} value={book.id}>{book.title}</option>
             ))}
           </select>
         </div>
@@ -106,13 +141,13 @@ const Transactions = () => {
             </tr>
           </thead>
           <tbody>
-            {movimientos.map((mov) => (
+            {transactions.map((mov) => (
               <tr key={mov.id}>
                 <td className="border p-2">{mov.id}</td>
-                <td className="border p-2">{new Date(mov.fecha).toLocaleDateString()}</td>
-                <td className="border p-2">{mov.unidades}</td>
-                <td className="border p-2">{mov.usuarioId}</td>
-                <td className="border p-2">{mov.tipo}</td>
+                <td className="border p-2">{new Date(mov.createdAt).toLocaleDateString()}</td>
+                <td className="border p-2">{mov.amount}</td>
+                <td className="border p-2">{mov.user.name}</td>
+                <td className="border p-2">{mov.type}</td>
               </tr>
             ))}
           </tbody>

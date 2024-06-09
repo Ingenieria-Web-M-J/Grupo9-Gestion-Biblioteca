@@ -9,6 +9,10 @@ const Sidebar: React.FC = () => {
   const [cart] = useAtom(cartAtom);
   const [isOpen, setIsOpen] = useState(false);
 
+  if (!session) {
+    return null; // No mostrar el sidebar si el usuario no está autenticado
+  }
+
   return (
     <div>
       <button
@@ -50,9 +54,9 @@ const Sidebar: React.FC = () => {
           <Link href="/checkout" className="block px-4 py-2 text-indigo-700 capitalize hover:bg-blue-300">
             Verificación
           </Link>
-          <Link href="/admin" className="block px-4 py-2 text-indigo-700 capitalize hover:bg-blue-300">
-            Administrador
-          </Link>
+            <Link href="/admin" className="block px-4 py-2 text-indigo-700 capitalize hover:bg-blue-300">
+              Administrador
+            </Link>
           <Link href="/products" className="block px-4 py-2 text-indigo-700 capitalize hover:bg-blue-300">
             Productos
           </Link>

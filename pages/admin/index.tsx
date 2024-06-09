@@ -4,6 +4,7 @@ import { useQuery, useMutation } from '@apollo/client';
 import { GET_USERS } from '@/utils/queries/users';
 import { UPDATE_USER } from '@/utils/mutations/users';
 import { toast } from 'react-toastify';
+import { Varela_Round } from 'next/font/google';
 
 type User = {
   id: number;
@@ -36,13 +37,12 @@ const Usuarios: React.FC = () => {
   const handleUpdateUser = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     setLoading(true);
-    
+
     await updateUser({
       variables: {
         data: {
-          id: selectedUser?.id,
           role: {
-            set: selectedRole === "Administrador" ? "ADMIN" : selectedRole === "Usuario" ? "USER" : null
+            set: selectedRole
           }
         },
         where: {
@@ -54,7 +54,7 @@ const Usuarios: React.FC = () => {
         setLoading(false);
         setShowDialog(false);
         toast.success('Product saved');
-        const data = response.data.createOneProduct;  //Obtener la respuesta del servidor
+        const data = response.data.updateOneUser;  //Obtener la respuesta del servidor
         //Agregarle el nuevo libro a la lista de libros en el estado
         console.log("data")
         console.log(data)
@@ -69,6 +69,7 @@ const Usuarios: React.FC = () => {
       })
       .catch((error: any) => {
         toast.error('Error saving product');
+        setLoading(false);
         console.error(error);
       });
       
@@ -78,22 +79,6 @@ const Usuarios: React.FC = () => {
     setSelectedUser(user);
     setSelectedRole(user?.role || '');
     setShowDialog(true);
-  };
-
-  const handleUpdateUser2 = async () => {
-    setLoading(true);
-    // Lógica para actualizar el usuario aquí
-    // Simulando una actualización exitosa
-    setTimeout(() => {
-      setLoading(false);
-      setShowDialog(false);
-      // Actualizar la lista de usuarios
-      setUsers((prevUsers) =>
-        prevUsers.map((u) =>
-          u.id === selectedUser?.id ? { ...u, role: selectedRole } : u
-        )
-      );
-    }, 1000);
   };
 
   if (queryLoading) return <h1>Loading...</h1>;
