@@ -46,8 +46,6 @@ Asegúrate de tener instalados en tu máquina:
    yarn add next react react-dom
    yarn add next-auth
    yarn add @auth/prisma-adapter
-   yarn add formik
-   yarn add yup
    yarn add react-modal
    ```
 

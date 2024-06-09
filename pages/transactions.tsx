@@ -56,11 +56,9 @@ const Transactions = () => {
       const { data } = await client.query({
         query: GET_TRANSACTION_BY_ID,
         variables: {
-          take: 10,
-          skip: 0,
           where: {
-            product: {
-              id: selectedLibro?.id
+            productId: {
+              equals: selectedLibro
             },
           },
         },
@@ -76,6 +74,16 @@ const Transactions = () => {
     }
   }
 
+  // Función para agregar una nueva transacción
+  const handleAgregarMovimiento = async () => {
+    setLoading(true);
+    // //setLoading(false);
+    // if (res.ok) {
+    //   setTransactions([]); // Recargar la lista de movimientos
+    //   setIsModalOpen(false); // Cerrar el modal
+    // }
+  };
+
    //Función para manejar el cambio de selección del libro
   const handleLibroChange = (e: { target: { value: any; }; }) => {
     const libroId = e.target.value;
@@ -84,27 +92,7 @@ const Transactions = () => {
     fetchTransactions(libroId);
   };
 
-  // Función para manejar la adición de un nuevo movimiento
-  const handleAgregarMovimiento = async () => {
-    //setLoading(true);
-    // const res = await fetch('/api/movimientos', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify({
-    //     libroId: selectedLibro,
-    //     tipo: modalTipo,
-    //     unidades: modalUnidades,
-    //     usuarioId: '1234', // Identificador ficticio del usuario
-    //   }),
-    // });
-    // //setLoading(false);
-    // if (res.ok) {
-    //   setTransactions([]); // Recargar la lista de movimientos
-    //   setIsModalOpen(false); // Cerrar el modal
-    // }
-  };
+  
 
   // Función para manejar el cambio en el número de unidades en el modal
   const handleUnidadesChange = (e: { target: { value: string; }; }) => {

@@ -2,22 +2,23 @@ import { gql} from '@apollo/client';
 
 
 const GET_TRANSACTION_BY_ID = gql`
-    query Query($take: Int, $skip: Int, $where: TransactionWhereInput) {
-        transactions(take: $take, skip: $skip, where: $where) {
-        product {
-            title
-            id
-            balance
-        }
-        user {
-            name
-        }
-        createdAt
-        id
-        type
-        amount
-        }
+    query Query($where: TransactionWhereInput) {
+  transactions(where: $where) {
+    amount
+    createdAt
+    id
+    type
+    product {
+      id
+      title
+      balance
     }
+    user {
+      name
+      id
+    }
+  }
+}
 `;
 
 export {GET_TRANSACTION_BY_ID };
