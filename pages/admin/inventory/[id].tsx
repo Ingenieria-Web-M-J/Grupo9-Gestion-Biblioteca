@@ -1,7 +1,7 @@
 import React from 'react';
 import Select from 'react-select';
 import { useQuery, useMutation, useLazyQuery } from '@apollo/client';
-import { UPSERT_PRODUCT } from '@/utils/mutations/products';
+import { CREATE_PRODUCT } from '@/utils/mutations/products';
 import { GET_PRODUCT_BY_ID } from '@/utils/queries/products';
 import { GET_CATEGORIES } from '@/utils/queries/categories';
 import useFormData from '@/hooks/useFormData';
@@ -25,7 +25,7 @@ const Index = ({ id }: any) => {
   const { form, formData, updateFormData } = useFormData({});
   const [selectedCategory, setSelectedCategory] = React.useState({} as any);
   const [product, setProduct] = React.useState({} as ProductType);
-  const [upsertProduct, { loading: loadingMutations }] = useMutation(UPSERT_PRODUCT);
+  const [upsertProduct, { loading: loadingMutations }] = useMutation(CREATE_PRODUCT);
   const [getProductById, { loading: loadingLazyQuery }] = useLazyQuery(GET_PRODUCT_BY_ID, {
     onCompleted(data) {
       setProduct(data.product);

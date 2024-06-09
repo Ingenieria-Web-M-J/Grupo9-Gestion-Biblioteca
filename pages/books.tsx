@@ -3,9 +3,8 @@ import { useSession } from 'next-auth/react';
 import { useQuery, useMutation } from '@apollo/client';
 import { GET_PRODUCTS } from '@/utils/queries/products';
 import { productsUpsertTrasnformations } from '@/utils/transformations/products';
-import useFormData from '@/hooks/useFormData';
 import { toast } from 'react-toastify';
-import { UPSERT_PRODUCT } from '@/utils/mutations/products';
+import { CREATE_PRODUCT } from '@/utils/mutations/products';
 
 // Componente principal para manejar la lista de libros
 const Books: React.FC = () => {
@@ -14,8 +13,7 @@ const Books: React.FC = () => {
   const [showDialog, setShowDialog] = useState(false); // Estado para controlar la visibilidad del cuadro de diálogo de agregar libro
   const [name, setName] = useState(''); // Estado para almacenar el nombre del nuevo libro
   const [balance, setBalance] = useState<number>(0); // Estado para almacenar el saldo inicial del nuevo libro
-  const [upsertProduct, { loading: loadingMutations }] = useMutation(UPSERT_PRODUCT);
-  const [id, setId] = useState('new'); // Estado para almacenar el ID del libro seleccionado
+  const [createProduct, { loading: loadingMutations }] = useMutation(CREATE_PRODUCT);
 
   //Traer productos
   const {loading} = useQuery(GET_PRODUCTS, {
@@ -38,28 +36,40 @@ const Books: React.FC = () => {
   const handleAddMaestro = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     
-    const { dataCreate, dataUpdate } = productsUpsertTrasnformations({
+    const { dataCreate } = productsUpsertTrasnformations({
       name,
       balance,
       creator: session?.user?.email,
     });
-    await upsertProduct({
+    console.log(dataCreate)
+    await createProduct({
       variables: {
-        where: {
-          id: "",
-        },
-        create: dataCreate,
-        update: dataUpdate,
+        data: dataCreate
       },
     })
-      .then(async () => {
+      .then(async (response) => {
         toast.success('Product saved');
-        
+        const data = response.data.createOneProduct;  //Obtener la respuesta del servidor
+        //Agregarle el nuevo libro a la lista de libros en el estado
+        console.log("data")
+        console.log(data)
+        setBooks((prevBooks) => [
+          ...prevBooks,
+          {
+            id: data.id,
+            title: name,
+            balance,
+            creator: {
+              name: data.creator.name,
+            },
+          },
+        ]);
       })
       .catch((error: any) => {
         toast.error('Error saving product');
         console.error(error);
       });
+      
   };
   
 

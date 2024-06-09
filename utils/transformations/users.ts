@@ -1,4 +1,4 @@
-export const productsUpsertTrasnformations = ({
+export const usersCreateTrasnformations = ({
   name,
   balance,
   creator

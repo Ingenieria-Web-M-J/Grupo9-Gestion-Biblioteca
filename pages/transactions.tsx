@@ -22,14 +22,9 @@ const Transactions = () => {
     }
   }, [selectedLibro]);
 
-  // Función para obtener la lista de libros del API
-  const fetchLibros = async () => {
-    const res = await fetch('/api/libros');
-    const data = await res.json();
-    setBooks(data);
-  };
+  
 
-  // Función para obtener la lista de movimientos del API para un libro específico
+  //Función para obtener la lista de movimientos del API para un libro específico
   // const fetchMovimientos 
   //   const {loading} = useQuery(GET_TRANSACTION_BY_ID, {
   //     variables: {

@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
-import { useQuery } from '@apollo/client';
+import { useQuery, useMutation } from '@apollo/client';
 import { GET_USERS } from '@/utils/queries/users';
+import { UPDATE_USER } from '@/utils/mutations/users';
+import { toast } from 'react-toastify';
 
 type User = {
   id: number;
@@ -17,6 +19,7 @@ const Usuarios: React.FC = () => {
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [selectedRole, setSelectedRole] = useState('');
   const [loading, setLoading] = useState(false);
+  const [updateUser, { loading: loadingMutations }] = useMutation(UPDATE_USER);
 
   const { loading: queryLoading } = useQuery(GET_USERS, {
     variables: {
@@ -29,13 +32,55 @@ const Usuarios: React.FC = () => {
     },
   });
 
+  // Función para manejar la adición de un nuevo libro
+  const handleUpdateUser = async (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+    setLoading(true);
+    
+    await updateUser({
+      variables: {
+        data: {
+          id: selectedUser?.id,
+          role: {
+            set: selectedRole === "Administrador" ? "ADMIN" : selectedRole === "Usuario" ? "USER" : null
+          }
+        },
+        where: {
+          id: selectedUser?.id,
+        }
+      },
+    })
+      .then(async (response) => {
+        setLoading(false);
+        setShowDialog(false);
+        toast.success('Product saved');
+        const data = response.data.createOneProduct;  //Obtener la respuesta del servidor
+        //Agregarle el nuevo libro a la lista de libros en el estado
+        console.log("data")
+        console.log(data)
+        
+        // Actualizar la lista de usuarios
+        setUsers((prevUsers) =>
+          prevUsers.map((u) =>
+            u.id === selectedUser?.id ? { ...u, role: selectedRole } : u
+          )
+        );
+        
+      })
+      .catch((error: any) => {
+        toast.error('Error saving product');
+        console.error(error);
+      });
+      
+  };
+
   const handleEditUser = (user: User | null) => {
     setSelectedUser(user);
     setSelectedRole(user?.role || '');
     setShowDialog(true);
   };
 
-  const handleUpdateUser = async () => {
+  const handleUpdateUser2 = async () => {
     setLoading(true);
     // Lógica para actualizar el usuario aquí
     // Simulando una actualización exitosa
