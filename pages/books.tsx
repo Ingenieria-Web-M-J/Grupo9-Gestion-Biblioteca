@@ -23,7 +23,7 @@ const Books: React.FC = () => {
       skip: 0,
     },
     //Politica para obtener los datos de la cache y no estar consultando siempre al servidor
-    fetchPolicy: 'cache-and-network',
+    fetchPolicy: 'network-only',
     onCompleted(data) {
       console.log(data);
       setBooks(data.products);

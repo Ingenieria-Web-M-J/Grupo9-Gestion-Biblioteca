@@ -27,7 +27,7 @@ const Usuarios: React.FC = () => {
       take: 10,
       skip: 0,
     },
-    fetchPolicy: 'cache-and-network',
+    fetchPolicy: 'network-only',
     onCompleted(data) {
       setUsers(data.users);
     },
