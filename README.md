@@ -1,3 +1,7 @@
+# Miebros del equipo
+Miguel Angel Alvarez
+Saray Cubillos García
+
 # Documentación del Proyecto
 
 Este es un proyecto [Next.js](https://nextjs.org/) iniciado con [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
