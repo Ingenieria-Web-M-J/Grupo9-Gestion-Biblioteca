@@ -1,12 +1,15 @@
+// Importamos las librerías y componentes necesarios
 import React, { useState, useEffect } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
 import { GET_PRODUCTS } from '@/utils/queries/products';
 import { GET_TRANSACTION_BY_ID } from '@/utils/queries/transactions';
 import { CREATE_TRANSACTION } from '@/utils/mutations/transactions';
-import {useApolloClient } from '@apollo/client';
+import { useApolloClient } from '@apollo/client';
 import { useSession } from 'next-auth/react';
 import { toast } from 'react-toastify';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
+// Definimos los tipos de datos para Libro (Book) y Transacción (Transaction)
 type Book = {
   id: number;
   name: string;
@@ -30,129 +33,98 @@ type Transaction = {
   };
 };
 
-// Componente principal para manejar las transacciones de los libros
 const Transactions = () => {
-  const [books, setBooks] = useState<any[]>([]); // Estado para almacenar la lista de libros
-  const [transactions, setTransactions] = useState<any[]>([]); // Estado para almacenar la lista de movimientos
-  const [selectedLibro, setSelectedLibro] = useState<Book | null>(null); // Estado para almacenar el libro seleccionado
-  const [loading, setLoading] = useState(false); // Estado para controlar la animación de carga
-  const [isModalOpen, setIsModalOpen] = useState(false); // Estado para controlar la visibilidad del modal
-  const [modalTipo, setModalTipo] = useState('ENTRADA'); // Estado para almacenar el tipo de movimiento en el modal
-  const [modalUnidades, setModalUnidades] = useState(1); // Estado para almacenar las unidades en el modal
-  const { data: session } = useSession(); // Obtener la sesión actual utilizando NextAuth
+  // Definimos los estados del componente
+  const [books, setBooks] = useState<any[]>([]);
+  const [transactions, setTransactions] = useState<any[]>([]);
+  const [selectedLibro, setSelectedLibro] = useState<Book | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalTipo, setModalTipo] = useState('ENTRADA');
+  const [modalUnidades, setModalUnidades] = useState(1);
+
+  // Obtenemos la sesión del usuario
+  const { data: session } = useSession();
+
+  // Definimos la mutación para crear una transacción
   const [createTransaction, { loading: loadingMutations }] = useMutation(CREATE_TRANSACTION);
+
+  // Obtenemos el cliente de Apollo
   const client = useApolloClient();
 
-  //Traer los libros y colocarlos para seleccionar
-  const {loading: queryLoading} = useQuery(GET_PRODUCTS, {
-    variables: {
-      take: 10,
-      skip: 0,
-    },
-    //Politica para obtener los datos de la cache y no estar consultando siempre al servidor
+  // Definimos la consulta para obtener los productos
+  const { loading: queryLoading } = useQuery(GET_PRODUCTS, {
+    variables: { take: 10, skip: 0 },
     fetchPolicy: 'cache-and-network',
     onCompleted(data) {
-      console.log(data);
       setBooks(data.products);
     },
   });
 
-  // useEffect para cargar los movimientos cuando se selecciona un libro
+  // Efecto para actualizar las transacciones cuando se selecciona un libro
   useEffect(() => {
-    // if (selectedLibro) {
-    //   setTransactions([]);
-    //   fetchTransactions(selectedLibro);
-    // }
+    if (selectedLibro) {
+      fetchTransactions(selectedLibro);
+    }
   }, [selectedLibro]);
 
-  //Función para obtener la lista de movimientos del API para un libro específico
+  // Función para obtener las transacciones de un libro
   const fetchTransactions = async (selectedLibro: any) => {
-    console.log("selectedLibro")
-    console.log(selectedLibro)
     setLoading(true);
     setTransactions([]);
     try {
       const { data } = await client.query({
         query: GET_TRANSACTION_BY_ID,
-        variables: {
-          where: {
-            productId: {
-              equals: selectedLibro
-            },
-          },
-        },
-        fetchPolicy: 'network-only' //Traer los datos siempre del servidor
-      },
-    );
+        variables: { where: { productId: { equals: selectedLibro } } },
+        fetchPolicy: 'network-only',
+      });
       setLoading(false);
-      console.log(data);
       setTransactions(data.transactions);
     } catch (error) {
       setLoading(false);
       console.error("Error fetching transactions:", error);
     }
-  }
+  };
 
-  // Función para agregar una nueva transacción
+  // Función para manejar la adición de un movimiento
   const handleAgregarMovimiento = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     setLoading(true);
-
-    //Validar si el libro seleccionado es nulo
-    if  (!selectedLibro) {
+    if (!selectedLibro) {
       toast.error('Seleccione un libro');
       setLoading(false);
       return;
     }
-
-    console.log(selectedLibro)
-    //TODO: Falta que funcione bien
-    //Validar si el libro tiene unidades suficientes para la salida
     if (modalTipo === 'SALIDA' && selectedLibro.balance < modalUnidades) {
       toast.error('El libro no tiene suficientes unidades');
       setLoading(false);
       return;
     }
-
     await createTransaction({
       variables: {
         data: {
           amount: modalUnidades,
           type: modalTipo,
-          product: {
-            connect: {
-              id: selectedLibro,
-            },
-          },
-          user: {
-            connect: {
-              email: session?.user?.email,
-            },
-          },
+          product: { connect: { id: selectedLibro } },
+          user: { connect: { email: session?.user?.email } },
         },
       },
     })
       .then(async (response) => {
         toast.success('Transaction saved');
-        const data = response.data.createOneTransaction;  //Obtener la respuesta del servidor
-        //Agregarle el nuevo libro a la lista de libros en el estado
-        console.log("data")
-        console.log(data)
+        const data = response.data.createOneTransaction;
         setTransactions((prevTransactions) => [
           ...prevTransactions,
           {
             id: data.id,
             type: modalTipo,
             amount: modalUnidades,
-            user: {
-              name: data.user.name,
-            },
+            user: { name: data.user.name },
             createdAt: new Date().toISOString(),
           },
         ]);
         setLoading(false);
-        setIsModalOpen(false); // Cerrar el modal
-        
+        setIsModalOpen(false);
       })
       .catch((error: any) => {
         toast.error('Error saving transaction');
@@ -161,7 +133,7 @@ const Transactions = () => {
       });
   };
 
-   //Función para manejar el cambio de selección del libro
+  // Manejadores para cambios en el libro seleccionado y en las unidades del modal
   const handleLibroChange = (e: { target: { value: any; }; }) => {
     const libroId = e.target.value;
     setSelectedLibro(libroId);
@@ -169,19 +141,35 @@ const Transactions = () => {
     fetchTransactions(libroId);
   };
 
-  
-
-  // Función para manejar el cambio en el número de unidades en el modal
   const handleUnidadesChange = (e: { target: { value: string; }; }) => {
     const value = parseInt(e.target.value, 10);
     if (!isNaN(value) && value > 0) {
-      setModalUnidades(value); // Actualizar el estado con el nuevo valor
+      setModalUnidades(value);
     } else {
-      setModalUnidades(1); // Establecer el valor mínimo permitido
+      setModalUnidades(1);
     }
   };
 
+  // Muestra un mensaje de carga mientras se obtienen los productos
   if (queryLoading) return <h1>Loading...</h1>;
+
+  // Función para calcular los saldos diarios a partir de las transacciones
+  const calculateDailyBalances = () => {
+    const dailyBalances = transactions.reduce((acc, transaction) => {
+      const date = new Date(transaction.createdAt).toLocaleDateString();
+      if (!acc[date]) {
+        acc[date] = { date, balance: 0 };
+      }
+      if (transaction.type === 'ENTRADA') {
+        acc[date].balance += transaction.amount;
+      } else {
+        acc[date].balance -= transaction.amount;
+      }
+      return acc;
+    }, {});
+    return Object.values(dailyBalances);
+  };
+
   return (
     <div className="bg-blue-100 min-h-screen">
       <div className="container mx-auto px-4 py-6">
@@ -259,7 +247,6 @@ const Transactions = () => {
                 </button>
                 <button
                   onClick={handleAgregarMovimiento}
-                  //disabled={loading}
                   className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
                 >
                   {loading ? 'Cargando...' : 'Agregar Movimiento'}
@@ -268,12 +255,26 @@ const Transactions = () => {
             </div>
           </div>
         )}
+        <div className="mt-8">
+          <h2 className="text-xl mb-4 text-indigo-700 font-bold">Evolución de Saldos Diarios</h2>
+          <ResponsiveContainer width="100%" height={300}>
+            <LineChart data={calculateDailyBalances()}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="date" />
+              <YAxis />
+              <Tooltip />
+              <Legend />
+              <Line type="monotone" dataKey="balance" stroke="#8884d8" activeDot={{ r: 8 }} />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
       </div>
     </div>
   );
 };
 
 export default Transactions;
+
 
 
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { useQuery, useMutation } from '@apollo/client';
 import { GET_PRODUCTS } from '@/utils/queries/products';
@@ -6,23 +6,37 @@ import { productsUpsertTrasnformations } from '@/utils/transformations/products'
 import { toast } from 'react-toastify';
 import { CREATE_PRODUCT } from '@/utils/mutations/products';
 
-// Componente principal para manejar la lista de libros
+interface Book {
+  id: number;
+  title: string;
+  balance: number;
+  creator: {
+    name: string;
+  };
+}
+
+type User = {
+  id: number;
+  createdAt: string;
+  email: string;
+  role: string;
+  name: string;
+};
+
 const Books: React.FC = () => {
   const { data: session } = useSession(); // Obtener la sesión actual utilizando NextAuth
-  const [books, setBooks] = useState<any[]>([]); // Estado para almacenar la lista de libros
+  const [books, setBooks] = useState<Book[]>([]); // Estado para almacenar la lista de libros
   const [showDialog, setShowDialog] = useState(false); // Estado para controlar la visibilidad del cuadro de diálogo de agregar libro
   const [name, setName] = useState(''); // Estado para almacenar el nombre del nuevo libro
   const [balance, setBalance] = useState<number>(0); // Estado para almacenar el saldo inicial del nuevo libro
   const [createProduct, { loading: loadingMutations }] = useMutation(CREATE_PRODUCT);
-  const [loading, setLoading] = useState(false);
   
-  //Traer productos
-  const {loading: queryLoading} = useQuery(GET_PRODUCTS, {
+  // Traer productos
+  const { loading: queryLoading } = useQuery(GET_PRODUCTS, {
     variables: {
       take: 10,
       skip: 0,
     },
-    //Politica para obtener los datos de la cache y no estar consultando siempre al servidor
     fetchPolicy: 'network-only',
     onCompleted(data) {
       console.log(data);
@@ -30,19 +44,16 @@ const Books: React.FC = () => {
     },
   });
 
-
-  
-
   // Función para manejar la adición de un nuevo libro
-  const handleAddMaestro = async (e: { preventDefault: () => void }) => {
+  const handleAddMaestro = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     const { dataCreate } = productsUpsertTrasnformations({
       name,
       balance,
       creator: session?.user?.email,
     });
-    console.log(dataCreate)
+    console.log(dataCreate);
     await createProduct({
       variables: {
         data: dataCreate
@@ -50,10 +61,10 @@ const Books: React.FC = () => {
     })
       .then(async (response) => {
         toast.success('Product saved');
-        const data = response.data.createOneProduct;  //Obtener la respuesta del servidor
-        //Agregarle el nuevo libro a la lista de libros en el estado
-        console.log("data")
-        console.log(data)
+        const data = response.data.createOneProduct;  // Obtener la respuesta del servidor
+        // Agregarle el nuevo libro a la lista de libros en el estado
+        console.log("data");
+        console.log(data);
         setBooks((prevBooks) => [
           ...prevBooks,
           {
@@ -65,14 +76,13 @@ const Books: React.FC = () => {
             },
           },
         ]);
+        setShowDialog(false); // Cerrar el cuadro de diálogo después de agregar el libro
       })
       .catch((error: any) => {
         toast.error('Error saving product');
         console.error(error);
       });
-      
   };
-  
 
   // Función para manejar el cambio del saldo inicial
   const handleBalanceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -88,7 +98,6 @@ const Books: React.FC = () => {
   return (
     <div className="flex bg-blue-100 min-h-screen">
       <div className="flex-1 p-6">
-        {/* <SideBar user={session?.user} /> */}
         <h1 className="text-2xl mb-4 text-indigo-700 font-bold">Books</h1>
         <table className="w-full border-collapse border bg-white shadow-md rounded-lg">
           <thead className="bg-blue-300 text-indigo-700">
@@ -110,54 +119,56 @@ const Books: React.FC = () => {
             ))}
           </tbody>
         </table>
-        <button
-          onClick={() => setShowDialog(true)}
-          className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-        >
-          Agregar Libro
-        </button>
+          <button
+            onClick={() => setShowDialog(true)}
+            className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+          >
+            Agregar Libro
+          </button>
         {showDialog && (
           <div className="fixed top-0 left-0 flex items-center justify-center w-full h-full bg-gray-500 bg-opacity-75">
             <div className="bg-white p-8 rounded-lg shadow-md">
               <h2 className="text-xl font-semibold mb-4 text-indigo-700">Agregar Libro</h2>
-              <div className="mb-4">
-                <label htmlFor="name" className="block mb-2">
-                  Nombre:
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className="w-full p-2 border rounded"
-                />
-              </div>
-              <div className="mb-4">
-                <label htmlFor="balance" className="block mb-2">
-                  Saldo Inicial:
-                </label>
-                <input
-                  type="number"
-                  id="balance"
-                  value={balance}
-                  onChange={handleBalanceChange}
-                  min={0}
-                  className="w-full p-2 border rounded"
-                />
-              </div>
-              <button
-                onClick={handleAddMaestro}
-                className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-              >
-
-                {loadingMutations ? 'Cargando...' : 'Agregar'}
-              </button>
-              <button
-                onClick={() => setShowDialog(false)}
-                className="ml-4 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
-              >
-                Cancelar
-              </button>
+              <form onSubmit={handleAddMaestro}>
+                <div className="mb-4">
+                  <label htmlFor="name" className="block mb-2">
+                    Nombre:
+                  </label>
+                  <input
+                    type="text"
+                    id="name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    className="w-full p-2 border rounded"
+                  />
+                </div>
+                <div className="mb-4">
+                  <label htmlFor="balance" className="block mb-2">
+                    Saldo Inicial:
+                  </label>
+                  <input
+                    type="number"
+                    id="balance"
+                    value={balance}
+                    onChange={handleBalanceChange}
+                    min={0}
+                    className="w-full p-2 border rounded"
+                  />
+                </div>
+                <button
+                  type="submit"
+                  className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                  disabled={loadingMutations}
+                >
+                  {loadingMutations ? 'Cargando...' : 'Agregar'}
+                </button>
+                <button
+                  onClick={() => setShowDialog(false)}
+                  className="ml-4 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+                >
+                  Cancelar
+                </button>
+              </form>
             </div>
           </div>
         )}
@@ -167,6 +178,4 @@ const Books: React.FC = () => {
 };
 
 export default Books;
-
-
 

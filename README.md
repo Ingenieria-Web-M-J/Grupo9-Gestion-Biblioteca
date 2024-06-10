@@ -23,7 +23,6 @@ Asegúrate de tener instalados en tu máquina:
    ```bash
    git clone https://github.com/tu-repo/tu-proyecto.git
    cd tu-proyecto
-   ```
 
 2. **Instala las dependencias**
 
@@ -47,6 +46,8 @@ Asegúrate de tener instalados en tu máquina:
    yarn add next-auth
    yarn add @auth/prisma-adapter
    yarn add react-modal
+   yarn add recharts
+
    ```
 
 ### Configuración de la Base de Datos
@@ -113,3 +114,7 @@ Puedes revisar el [repositorio de GitHub de Next.js](https://github.com/vercel/n
 La manera más fácil de desplegar tu aplicación de Next.js es usar la [Plataforma Vercel](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) de los creadores de Next.js.
 
 Consulta nuestra [documentación sobre el despliegue de Next.js](https://nextjs.org/docs/deployment) para más detalles.
+
+## Información Relevante
+
+La primera página que te saldrá será la landing page de inicio. Debes darle click al botón de iniciar sesión, el cual te llevará a autenticarte con NextAuth. Una vez que inicies sesión, te aparecerá la correspondiente SideBar con las vistas a las distintas páginas de la aplicación web.

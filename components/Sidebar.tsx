@@ -1,12 +1,9 @@
-import React, { useState } from 'react';
-import { useAtom } from 'jotai';
-import { cartAtom } from '@/atoms/cart';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { signIn, useSession, signOut } from 'next-auth/react';
 
 const Sidebar: React.FC = () => {
   const { data: session } = useSession();
-  const [cart] = useAtom(cartAtom);
   const [isOpen, setIsOpen] = useState(false);
 
   if (!session) {
@@ -51,15 +48,9 @@ const Sidebar: React.FC = () => {
           <Link href="/" className="block px-4 py-2 text-indigo-700 capitalize hover:bg-blue-300">
             Inicio
           </Link>
-          <Link href="/checkout" className="block px-4 py-2 text-indigo-700 capitalize hover:bg-blue-300">
-            Verificación
-          </Link>
             <Link href="/admin" className="block px-4 py-2 text-indigo-700 capitalize hover:bg-blue-300">
               Administrador
             </Link>
-          <Link href="/products" className="block px-4 py-2 text-indigo-700 capitalize hover:bg-blue-300">
-            Productos
-          </Link>
           <Link href="/books" className="block px-4 py-2 text-indigo-700 capitalize hover:bg-blue-300">
             Libros
           </Link>
@@ -67,10 +58,15 @@ const Sidebar: React.FC = () => {
             Transacciones
           </Link>
           <div className="block px-4 py-2 text-indigo-700 capitalize hover:bg-blue-300">
-            {session ? (
+            {session && session.user ? (
               <div>
+                <img
+                  src={session.user.image!}
+                  alt={session.user.name ?? ""}
+                  className="w-20 h-20 rounded-full mb-2"
+                />
                 <p className="text-indigo-700">
-                  {session.user?.name} - {session.user?.email}
+                  {session.user.name} - {session.user.email}
                 </p>
                 <button
                   onClick={() => signOut()}
@@ -87,9 +83,6 @@ const Sidebar: React.FC = () => {
                 Inicio Sesión
               </button>
             )}
-          </div>
-          <div className="text-2xl font-bold text-indigo-700 px-4 py-2">
-            {cart.length}
           </div>
         </nav>
       </div>

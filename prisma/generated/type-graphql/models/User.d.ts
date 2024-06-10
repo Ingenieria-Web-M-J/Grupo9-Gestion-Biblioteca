@@ -17,4 +17,5 @@ export declare class User {
     role: string;
     Transaction?: Transaction[];
     _count?: UserCount | null;
+  static role: string;
 }
