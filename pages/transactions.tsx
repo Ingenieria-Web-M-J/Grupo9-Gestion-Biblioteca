@@ -61,13 +61,6 @@ const Transactions = () => {
     },
   });
 
-  // Efecto para actualizar las transacciones cuando se selecciona un libro
-  useEffect(() => {
-    if (selectedLibro) {
-      fetchTransactions(selectedLibro);
-    }
-  }, [selectedLibro]);
-
   // Función para obtener las transacciones de un libro
   const fetchTransactions = async (selectedLibro: any) => {
     setLoading(true);
@@ -85,6 +78,13 @@ const Transactions = () => {
       console.error("Error fetching transactions:", error);
     }
   };
+  
+  // Efecto para actualizar las transacciones cuando se selecciona un libro
+  useEffect(() => {
+    if (selectedLibro) {
+      fetchTransactions(selectedLibro);
+    }
+  }, [selectedLibro]);
 
   // Función para manejar la adición de un movimiento
   const handleAgregarMovimiento = async (e: { preventDefault: () => void }) => {

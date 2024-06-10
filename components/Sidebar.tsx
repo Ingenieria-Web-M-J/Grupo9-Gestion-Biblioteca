@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { signIn, useSession, signOut } from 'next-auth/react';
+import Image from 'next/image'; // Importa el componente Image de next/image
 
 const Sidebar: React.FC = () => {
   const { data: session } = useSession();
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   if (!session) {
     return null; // No mostrar el sidebar si el usuario no está autenticado
@@ -41,7 +42,7 @@ const Sidebar: React.FC = () => {
       >
         <div className="flex items-center justify-between p-4 bg-blue-300">
           <Link href="/">
-            <img className="w-auto h-24 sm:h-28" src="/logo.png" alt="Logo Biblioteca" />
+            <Image src="/logo.png" alt="Logo Biblioteca" width={150} height={150} />
           </Link>
         </div>
         <nav className="mt-10">

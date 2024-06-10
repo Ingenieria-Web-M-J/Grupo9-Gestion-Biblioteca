@@ -1,7 +1,6 @@
-// Importamos React y sus tipos
-import React from 'react';
+import Image from 'next/image'; // Importa el componente Image de next/image
 
-// Definimos las propiedades del componente Feature usando una interfaz de TypeScript
+// Define la interfaz para las propiedades del componente Feature
 interface FeatureProps {
   iconPath: string;
   title: string;
@@ -41,7 +40,7 @@ const Feature: React.FC<FeatureProps> = ({ iconPath, title, description }) => (
 // Componente principal Index
 const Index: React.FC = () => {
   // Array de características a mostrar, cada una con un icono, título y descripción
-  const features = [
+  const features: FeatureProps[] = [
     {
       iconPath: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01',
       title: '¡Bienvenido a la Biblioteca Virtual!',
@@ -85,10 +84,12 @@ const Index: React.FC = () => {
               ))}
             </div>
             <div className='hidden lg:flex lg:items-center lg:w-1/2 lg:justify-center'>
-              <img
-                className='w-[28rem] h-[28rem] object-cover xl:w-[34rem] xl:h-[34rem] rounded-full'
+              <Image
                 src='/libro-og.webp'
                 alt='Feature illustration'
+                width={340}
+                height={340}
+                className='w-[28rem] h-[28rem] object-cover xl:w-[34rem] xl:h-[34rem] rounded-full'
               />
             </div>
           </div>
